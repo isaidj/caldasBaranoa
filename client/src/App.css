@@ -1,0 +1,42 @@
+.App {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.App-header {
+  background-color: #e2e2e2;
+}
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+.App-body {
+}
+.inicioCrud {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.forms {
+  display: flex;
+  flex-direction: column;
+}
+.formInsert {
+  display: flex;
+  flex-direction: column;
+  padding-left: 15px;
+}
+.formInsert label {
+  padding-top: 20px;
+}
+.formInsert Button {
+  width: 20%;
+}
+.formInsert__nombre {
+  width: 80%;
+  height: 1.5rem;
+}
+.formInsert__descripcion {
+  width: 80%;
+  min-height: 5rem;
+  max-width: 80%;
+  height: auto;
+}
