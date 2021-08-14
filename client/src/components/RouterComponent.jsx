@@ -7,6 +7,7 @@ import Pais from "../pages/Pais";
 import Relevantes from "../pages/Relevantes";
 
 import Social from "../pages/Social";
+import { Get } from "./Get";
 import Menu from "./Menu";
 
 const RouterComponent = () => {
@@ -19,7 +20,7 @@ const RouterComponent = () => {
 
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/social" component={Social} />
+          <Route exact path="/social" component={Get} />
           <Route exact path="/pais" compoexa ctnent={Pais} />
           <Route exact path="/Relevantes" component={Relevantes} />
           <Route path="*" component={Error404} />
