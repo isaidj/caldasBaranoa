@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
 import { Redirect } from "react-router";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const Login = () => {
   // let subtitle;
@@ -23,7 +23,7 @@ const Login = () => {
     }).then((data) => {
       if (data !== null) {
         console.log("redireccionar");
-        history.push("/UserDashboard/:" + data.nombre);
+        history.push("/UserDashboard");
       }
     });
   };
