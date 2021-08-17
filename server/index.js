@@ -30,14 +30,40 @@ app.get("/api/get", (req, res) => {
     res.send(result);
   });
 });
-//esta es la ruta que permite insertar datos a la bd
-app.post("/api/insert", (req, res) => {
-  const nombre = req.body.nombre;
-  const descripcion = req.body.descripcion;
-  const sqlInsert = "insert into noticia (nombre,descripcion) values (?,?)";
 
-  db.query(sqlInsert, [nombre, descripcion], (err, result) => {
-    console.log(result);
+//insert usuarios
+app.post("/api/insertusuario", (req, res) => {
+  const usuario = req.body.usuario;
+  const password = req.body.password;
+  const nombres = req.body.nombre;
+  const apellidos = req.body.apellido;
+  const grado = req.body.grado;
+  const sqlInsert =
+    "insert into usuarios(usuario, contrasena, nombres, apellidos, grado) values(?, ?, ?, ?, ?)";
+
+  db.query(
+    sqlInsert,
+    [usuario, password, nombres, apellidos, grado],
+    (err, result) => {
+      console.log(result);
+
+      if (err) console.log(err);
+    }
+  );
+});
+//login usuarios
+app.post("/api/login", (req, res) => {
+  const usuario = req.body.usuario;
+  const password = req.body.password;
+  const sqlSelect =
+    "select * from usuarios where usuario = ? and contrasena = ?";
+  db.query(sqlSelect, [usuario, password], (err, result) => {
+    if (err) console.log(err);
+
+    //verificamos que el usuario exista
+    if (result.length > 0) {
+      res.send(result);
+    }
   });
 });
 

@@ -1,16 +1,145 @@
 .App {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.App-header {
-  background-color: #e2e2e2;
+.header {
+  position: relative;
+
+  height: 10vh;
+  width: 100%;
 }
+.logo {
+  position: absolute;
+  left: 15px;
+}
+.btn-login {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 15px;
+  height: 100%;
+}
+.btn-menu {
+  visibility: hidden;
+}
+.btn-openModal {
+  font-size: 2.5rem;
+}
+.btn-login h1 {
+  font-size: 1.1rem;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  /* center vertical */
+}
+.btn-login:hover {
+  cursor: pointer;
+}
+.modal-login {
+  /*center modal*/
+
+  position: relative;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+  height: auto;
+  padding: 50px;
+  background-color: rgb(228, 228, 228);
+  border-radius: 5px;
+  animation: modal-login-animation 0.3s;
+  outline: none;
+}
+.modal-login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(92, 92, 92, 0.521);
+}
+@keyframes modal-login-animation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.modal-login__close {
+  position: absolute;
+
+  border: none;
+
+  top: 2%;
+  right: 2%;
+  color: rgb(36, 114, 204);
+}
+
+.modal-login__container {
+  display: flex;
+  flex-direction: column;
+  /* center content */
+
+  align-items: center;
+}
+.modal-register__container {
+  display: flex;
+  flex-direction: column;
+  /* center content */
+
+  align-items: center;
+}
+.modal-register__back {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  color: rgb(36, 114, 204);
+  border: none;
+  transform: scale(1.2);
+}
+.modal-register__back:focus {
+  border: none;
+  outline: none;
+}
+
+.modal-login__container h1 {
+  font-size: 1.1rem;
+  color: rgb(49, 49, 49);
+
+  font-weight: bold;
+}
+.modal-login__container label {
+  font-size: 1rem;
+  color: rgb(49, 49, 49);
+
+  font-weight: bold;
+}
+
+.modal-login__form {
+  display: flex;
+  flex-direction: column;
+
+  width: 90%;
+}
+.modal-login__crearCuenta {
+  background-color: none;
+  color: rgb(36, 114, 204);
+  border: none;
+}
+
 .menu {
   display: flex;
   flex-direction: row;
   list-style-type: none;
 }
+.menu__item {
+}
+.menu__item__active {
+  color: rgb(204, 36, 36);
+}
 .App-body {
 }
+
 .inicioCrud {
   display: grid;
   grid-template-columns: 50% 50%;
@@ -39,4 +168,107 @@
   min-height: 5rem;
   max-width: 80%;
   height: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .header {
+    position: relative;
+
+    height: 10vh;
+    width: 100%;
+  }
+  .logo {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    left: 0px;
+    height: 100%;
+    background-color: rgb(218, 89, 66);
+  }
+  .logo h1 {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2.5rem;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    /* center vertical */
+  }
+  .btn-login {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 5%;
+    height: 100%;
+  }
+  .btn-menu {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 20%;
+    height: 100%;
+  }
+  .btn-openMenu {
+    font-size: 2.5rem;
+  }
+  .modal-login {
+    /*center modal*/
+
+    position: relative;
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    box-shadow: 0px 0px 50px rgba(73, 73, 73, 0.5);
+    height: auto;
+    padding: 50px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    animation: modal-login-animation 0.3s;
+    border: none;
+    outline: none;
+  }
+  .modal-login__container {
+    display: flex;
+    flex-direction: column;
+    /* center content */
+
+    align-items: center;
+  }
+  .modal-login__container h1 {
+    font-size: 1.5rem;
+    color: rgb(49, 49, 49);
+
+    font-weight: bold;
+  }
+  .modal-login__container label {
+    font-size: 1.1rem;
+    color: rgb(49, 49, 49);
+
+    font-weight: bold;
+  }
+  .modal-login__container input {
+    width: 100%;
+    height: 4rem;
+    font-size: 1.5rem;
+  }
+  .form-group-password {
+    position: relative;
+  }
+  .icons-inputs {
+    position: absolute;
+  }
+  .modal-login__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-submit {
+    width: 100%;
+    height: 4rem;
+    font-size: 1.1rem;
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+  }
 }
