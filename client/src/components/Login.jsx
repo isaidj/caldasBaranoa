@@ -1,18 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 // import Modal from "react-modal";
 // import { CgClose, CgUser, CgChevronLeftO } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
-import { Redirect } from "react-router";
-import { useHistory, useParams } from "react-router-dom";
 
-const Login = () => {
+import { useHistory } from "react-router-dom";
+import useAuth from "../auth/useAuth";
+
+const Login = (props) => {
   // let subtitle;
   const { register, handleSubmit } = useForm();
 
-  const divLogin = useRef(null);
-  const divRegister = useRef(null);
+  const auth = useAuth();
 
   let history = useHistory();
 
@@ -22,8 +22,13 @@ const Login = () => {
       password: d.password,
     }).then((data) => {
       if (data !== null) {
-        console.log("redireccionar");
+        auth.login(data.data);
         history.push("/UserDashboard");
+        const closeModal = () => {
+          props.closeModal();
+        };
+
+        closeModal();
       }
     });
   };

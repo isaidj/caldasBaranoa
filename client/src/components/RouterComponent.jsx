@@ -10,8 +10,8 @@ import UserDashboard from "../pages/UserDashboard";
 
 // import Social from "../pages/Social";
 
-import Header from "./Header";
 import Menu from "./Menu";
+import PrivateRoute from "./PrivateRoute";
 
 const RouterComponent = () => {
   return (
@@ -26,11 +26,8 @@ const RouterComponent = () => {
           <Route exact path="/social" component={Social} />
           <Route exact path="/pais" component={Pais} />
           <Route exact path="/Relevantes" component={Relevantes} />
-          <Route
-            exact
-            path="/UserDashboard"
-            component={() => <UserDashboard authorized={true} />}
-          />
+          <PrivateRoute path="/UserDashboard" component={UserDashboard} />
+
           <Route path="*" component={Error404} />
         </Switch>
       </Router>

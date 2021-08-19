@@ -1,59 +1,37 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
-import Modal from "react-modal";
-import { CgClose, CgUser, CgChevronLeftO } from "react-icons/cg";
+// import { CgClose, CgUser, CgChevronLeftO } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
 
-// const customStyles = {
-//   content: {
-//     top: "50%",
-//     left: "50%",
-//     right: "auto",
-//     bottom: "auto",
-//     marginRight: "-50%",
-//     transform: "translate(-50%, -50%)",
-//   },
-// };
-
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-
-const Register = () => {
+const Register = (props) => {
   // let subtitle;
   const { register, handleSubmit } = useForm();
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [switchLogReg, setSwitchLogReg] = React.useState(false);
-  const divLogin = useRef(null);
-  const divRegister = useRef(null);
+  const changeToLogin = () => {
+    props.changeSwitchLogReg();
+  };
 
   const onRegistrar = (d) => {
-    console.log(d);
     Axios.post("http://192.168.1.6:3001/api/insertusuario", {
       usuario: d.usuario,
       password: d.password,
       nombre: d.nombre,
       apellido: d.apellido,
       grado: d.grado,
-    }).then(() => {
-      alert("Insertion realizada");
+    }).then((data) => {
+      if (data.data === "ok") {
+        console.log(data);
+        changeToLogin();
+      } else {
+        console.log("hay un error");
+      }
     });
-    console.log(d);
-  };
-
-  const onLogin = (d) => {};
-  const openModal = () => {
-    setIsOpen(true);
   };
 
   // const afterOpenModal = () => {
   //   subtitle.style.color = "#f00";
   // };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    setSwitchLogReg(false);
-  };
 
   return (
     <form onSubmit={handleSubmit(onRegistrar)} className="modal-login__form">

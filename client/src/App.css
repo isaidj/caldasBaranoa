@@ -137,12 +137,32 @@
 .menu__item__active {
   color: rgb(204, 36, 36);
 }
+.dropdown__profile {
+  background-color: brown;
+  color: brown;
+}
 .App-body {
 }
 
 .inicioCrud {
   display: grid;
   grid-template-columns: 50% 50%;
+
+  grid-gap: 10px;
+  padding: 10px;
+}
+.tipo_esquema_container {
+  display: grid;
+  height: 400px;
+  align-content: center;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-template-columns: 50% 50% 50%;
+}
+.tipo_esquema_container div {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
 }
 .forms {
   display: flex;

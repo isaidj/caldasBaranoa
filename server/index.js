@@ -20,7 +20,39 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//archivos estaticos
+//SECCION DE NOTICIAS
+//Insertar datos en publicaciones
+app.post("/api/publi", (req, res) => {
+  const nom_publi = req.body.nombre;
+  const des_publi = req.body.descripcion;
+  // const img_publi = req.body.imagen;
+  const areas_idareas = req.body.areas;
+  const usuarios_idusuarios = req.body.usuarios_id;
+  const admin_idadmin = 1;
+  const sqlInsertPublicaicon =
+    "insert into publicaciones(nom_publi,des_publi,areas_idareas,usuarios_idusuario,admin_idadmin)  values(?, ?, ?, ?,?)";
+
+  db.query(
+    sqlInsertPublicaicon,
+    [
+      nom_publi,
+      des_publi,
+      // img_publi,
+      areas_idareas,
+      usuarios_idusuarios,
+      admin_idadmin,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
+    }
+  );
+});
 
 //esta es la ruta que permite obtener los datos de la base de datos
 app.get("/api/get", (req, res) => {
@@ -45,9 +77,13 @@ app.post("/api/insertusuario", (req, res) => {
     sqlInsert,
     [usuario, password, nombres, apellidos, grado],
     (err, result) => {
-      console.log(result);
-
-      if (err) console.log(err);
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
     }
   );
 });
@@ -55,16 +91,31 @@ app.post("/api/insertusuario", (req, res) => {
 app.post("/api/login", (req, res) => {
   const usuario = req.body.usuario;
   const password = req.body.password;
-  const sqlSelect =
-    "select * from usuarios where usuario = ? and contrasena = ?";
-  db.query(sqlSelect, [usuario, password], (err, result) => {
-    if (err) console.log(err);
 
-    //verificamos que el usuario exista
-    if (result.length > 0) {
-      res.send(result);
-    }
-  });
+  if (usuario == "admin") {
+    const sqlSelect = "select * from admin where nombre = ? and contrasena = ?";
+    db.query(sqlSelect, [usuario, password], (err, result) => {
+      if (err) console.log(err);
+
+      //verificamos que el usuario exista
+      if (result.length > 0) {
+        res.send(result);
+      }
+    });
+  } else {
+    const sqlSelect =
+      "select * from usuarios where usuario = ? and contrasena = ?";
+    db.query(sqlSelect, [usuario, password], (err, result) => {
+      if (err) console.log(err);
+
+      //verificamos que el usuario exista
+      if (result.length > 0) {
+        res.send(result);
+      }
+    });
+  }
+
+  //if usuario is admin
 });
 
 app.delete("/api/delete/:id", (req, res) => {

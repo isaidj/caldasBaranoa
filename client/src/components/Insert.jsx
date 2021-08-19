@@ -1,49 +1,100 @@
 //insert
 import Axios from "axios";
-import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-// import { Get } from "./Get";
+import React from "react";
+// import Button from "@material-ui/core/Button";
+// import TextField from "@material-ui/core/TextField";
+import { useForm } from "react-hook-form";
+import useAuth from "../auth/useAuth";
 
 export const Insert = () => {
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  //funcion para hacer un post asignandole la direccion y la finformacion en un objeto.
+  const { register, handleSubmit } = useForm();
+  const auth = useAuth();
+  console.log(auth.getUser());
+  console.log();
+  const insertData = (d) => {
+    Axios.post("http://192.168.1.6:3001/api/publi", {
+      nombre: d.nombre,
+      descripcion: d.descripcion,
+      // imagen: d.imagen,
+      //string to number
+      areas: Number(d.areas),
+      usuarios_id: auth.getUser().idusuario,
 
-  const sendData = () => {
-    Axios.post("http://localhost:3001/api/insert", {
-      nombre: nombre,
-      descripcion: descripcion,
-    }).then(() => {
-      alert("Insertion realizada");
+      // usuarios_idusuarios: ,
+    }).then((data) => {
+      if (data.data === "ok") {
+        console.log(data);
+      } else {
+        console.log("hay un error");
+      }
     });
-    setNombre("");
-    setDescripcion("");
-    //use function reload() from Get.jsx
   };
+  //form react hook form
   return (
-    <div className="formInsert">
-      <h1>Noticias ax</h1>
-      <label> Nombre de la noticia</label>
-      <TextField
-        className="formInsert__nombre"
-        type="text"
-        name="nombre"
-        onChange={(e) => setNombre(e.target.value)}
-        value={nombre}
-      />
-      <label> Descripción de la noticia</label>
-      <TextField
-        label="multiline"
-        multiline
-        rows={4}
-        className="formInsert__descripcion"
-        type="textarea"
-        name="descripcion "
-        onChange={(e) => setDescripcion(e.target.value)}
-        value={descripcion}
-      />
-      <Button onClick={(e) => sendData()}>Insertar</Button>
+    <div>
+      <form onSubmit={handleSubmit(insertData)} className="modal-login__form">
+        {/* login */}
+        <div className="form-group">
+          <input
+            {...register("nombre", { required: true })}
+            className="form-control"
+            type="text"
+            placeholder="Nombre de la noticia"
+          />
+        </div>
+        <div className="form-group">
+          <textarea
+            {...register("descripcion", { required: true })}
+            className="form-control"
+            type="textarea"
+            placeholder="Descripcion noticia"
+          />
+        </div>
+        <div className="form-group">
+          <input
+            {...register("imagen")}
+            className="form-control"
+            type="file"
+            placeholder="Imagen"
+          />
+        </div>
+
+        <div className="form-group">
+          {/* select type number */}
+
+          <select
+            {...register("areas", { required: true })}
+            className="form-control"
+            type="number"
+            placeholder="Area"
+          >
+            <option value="">Seleccione Area</option>
+            <option value="1">Tecnologia</option>
+            <option value="2">Sociales</option>
+            <option value="3">Biologia</option>
+            <option value="4">Matematica</option>
+            <option value="5">Español</option>
+            <option value="6">Quimica</option>
+          </select>
+
+          {/* <div>
+            <h3>Tipo de esquema</h3>
+            <div className="tipo_esquema_container">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div> */}
+        </div>
+
+        <button type="submit" className="btn btn-primary btn-submit">
+          Publicar
+        </button>
+        {/* register a link */}
+      </form>
     </div>
   );
 };

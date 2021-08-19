@@ -25,6 +25,7 @@ export const Get = (props) => {
 
   return (
     <div className="listNoticias">
+      <h1>{props.title}</h1>
       <Table striped bordered hover>
         <thead>
           <tr>

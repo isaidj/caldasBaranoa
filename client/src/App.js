@@ -1,14 +1,16 @@
 // import logo from "./logo.svg";
 
 import "./App.css";
-import Header from "./components/Header";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import RouterComponent from "./components/RouterComponent";
+import AuthProvider from "./auth/AuthProvider";
 
 function App() {
   return (
     <div className="App">
-      <RouterComponent />
+      <AuthProvider>
+        <RouterComponent />
+      </AuthProvider>
     </div>
   );
 }

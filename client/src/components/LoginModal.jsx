@@ -1,10 +1,9 @@
 //login modal
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 import Modal from "react-modal";
 import { CgClose, CgUser, CgChevronLeftO } from "react-icons/cg";
-import { useForm } from "react-hook-form";
-import Axios from "axios";
+
 import Register from "./Register";
 import Login from "./Login";
 
@@ -15,7 +14,7 @@ const LoginModal = () => {
   const divRegister = useRef(null);
 
   const changeSwitchLogReg = (bool) => {
-    if (switchLogReg == bool) {
+    if (switchLogReg === bool) {
       divRegister.current.style.display = "flex";
       divLogin.current.style.display = "none";
     } else {
@@ -57,7 +56,7 @@ const LoginModal = () => {
             className="modal-login__container"
           >
             <h1>Inicio de sesion</h1>
-            <Login />
+            <Login closeModal={() => closeModal()} />
             <button
               className="modal-login__crearCuenta"
               onClick={() => changeSwitchLogReg(false)}
@@ -80,7 +79,7 @@ const LoginModal = () => {
             </button>
             <h1>Registro</h1>
             {/* usuario,contraseña,nombre,apellido,grado */}
-            <Register />
+            <Register changeSwitchLogReg={() => changeSwitchLogReg(true)} />
           </div>
         </div>
       </Modal>

@@ -12,13 +12,13 @@
 // import DeleteIcon from "@material-ui/icons/Delete";
 // import Edit from "@material-ui/icons/Edit";
 import { Insert } from "./Insert";
-import { Get } from "./Get";
+// import { Get } from "./Get";
 export const Crud = () => {
   // const [reload, setReload] = useState(false);
   return (
     <div className="inicioCrud">
       <Insert />
-      <Get />
+      {/* <Get title="Mis Noticias" /> */}
     </div>
   );
 };
