@@ -4,21 +4,21 @@ import React from "react";
 // import Button from "@material-ui/core/Button";
 // import TextField from "@material-ui/core/TextField";
 import { useForm } from "react-hook-form";
-import useAuth from "../auth/useAuth";
+import useAuth from "../../auth/useAuth";
 
-export const Insert = () => {
+export const InsertAdmin = () => {
   const { register, handleSubmit } = useForm();
   const auth = useAuth();
-  console.log(auth.getUser());
+  // console.log(auth.getUser());
   console.log();
   const insertData = (d) => {
-    Axios.post("http://192.168.1.6:3001/api/publi", {
+    Axios.post("http://192.168.1.6:3001/api/insertPubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
       // imagen: d.imagen,
       //string to number
       areas: Number(d.areas),
-      usuarios_id: auth.getUser().idusuario,
+      usuarios_id: auth.getUser().idadmin,
 
       // usuarios_idusuarios: ,
     }).then((data) => {

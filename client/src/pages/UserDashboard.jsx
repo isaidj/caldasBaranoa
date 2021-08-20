@@ -3,7 +3,7 @@
 import React from "react";
 
 import useAuth from "../auth/useAuth";
-import { Crud } from "../components/Crud";
+import { Crud } from "../components/crudQueries/Crud";
 
 const UserDashboard = () => {
   const auth = useAuth();

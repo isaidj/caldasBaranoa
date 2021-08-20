@@ -14,10 +14,12 @@ const Register = (props) => {
 
   const onRegistrar = (d) => {
     Axios.post("http://192.168.1.6:3001/api/insertusuario", {
+      //uppercase the first letter of d.nombre and d.apellido
+
       usuario: d.usuario,
       password: d.password,
-      nombre: d.nombre,
-      apellido: d.apellido,
+      nombre: d.nombre.charAt(0).toUpperCase() + d.nombre.slice(1),
+      apellido: d.apellido.charAt(0).toUpperCase() + d.apellido.slice(1),
       grado: d.grado,
     }).then((data) => {
       if (data.data === "ok") {
@@ -58,6 +60,8 @@ const Register = (props) => {
           className="form-control"
           type="text"
           placeholder="Nombre"
+          //capitalize text
+          style={{ textTransform: "capitalize" }}
         />
       </div>
       <div className="form-group">
@@ -66,6 +70,7 @@ const Register = (props) => {
           className="form-control"
           type="text"
           placeholder="Apellido"
+          style={{ textTransform: "capitalize" }}
         />
       </div>
       <div className="form-group">

@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //SECCION DE NOTICIAS
 //Insertar datos en publicaciones
-app.post("/api/publi", (req, res) => {
+app.post("/api/insertPubli", (req, res) => {
   const nom_publi = req.body.nombre;
   const des_publi = req.body.descripcion;
   // const img_publi = req.body.imagen;
@@ -53,15 +53,73 @@ app.post("/api/publi", (req, res) => {
     }
   );
 });
-
-//esta es la ruta que permite obtener los datos de la base de datos
-app.get("/api/get", (req, res) => {
-  const sqlSelect = "SELECT * FROM noticia";
-
-  db.query(sqlSelect, (err, result) => {
-    res.send(result);
+//get datos de publicaciones de usuarios
+app.get("/api/getPubliUser", (req, res) => {
+  const idusuario = req.query.id;
+  const sqlSelectPublicaciones =
+    "select nom_publi as nombre, des_publi as descripcion from publicaciones where usuarios_idusuario = ? ";
+  db.query(sqlSelectPublicaciones, [idusuario], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
   });
 });
+//Update datos de publicaciones
+app.post("/api/updatePubli", (req, res) => {
+  const nom_publi = req.body.nombre;
+  const des_publi = req.body.descripcion;
+  // const img_publi = req.body.imagen;
+  const areas_idareas = req.body.areas;
+  const usuarios_idusuario = req.body.usuarios_id;
+  const idpublicaciones = req.body.idpublicaciones;
+  const admin_idadmin = 1;
+  const sqlInsertPublicaicon =
+    "update publicaciones set nom_publi = ?, des_publi = ?, areas_idareas = ?, usuarios_idusuario = ?,idpublicaciones=?, admin_idadmin = ? where idpublicaciones = ?";
+
+  db.query(
+    sqlInsertPublicaicon,
+    [
+      nom_publi,
+      des_publi,
+      // img_publi,
+      areas_idareas,
+      usuarios_idusuario,
+      idpublicaciones,
+      admin_idadmin,
+      idpublicaciones,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
+    }
+  );
+});
+
+//get TODOS los DATOS de publicaciones
+app.get("/api/getAllPubli", (req, res) => {
+  // const idusuario = req.query.id;
+  const sqlSelectPublicaciones =
+    'select idpublicaciones, nom_publi as nombre, des_publi as descripcion,areas_idareas,usuarios_idusuario,   CONCAT( usuarios.nombres ," ", usuarios.apellidos )as fullName from publicaciones inner join usuarios on publicaciones.usuarios_idusuario = usuarios.idusuario';
+  db.query(sqlSelectPublicaciones, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+//Editar admin
 
 //insert usuarios
 app.post("/api/insertusuario", (req, res) => {
@@ -114,8 +172,6 @@ app.post("/api/login", (req, res) => {
       }
     });
   }
-
-  //if usuario is admin
 });
 
 app.delete("/api/delete/:id", (req, res) => {
@@ -126,14 +182,6 @@ app.delete("/api/delete/:id", (req, res) => {
     if (err) console.log(result);
   });
 });
-
-// app.get("/", (req, res) => {
-//   //   const sqlInsert =
-//   //     "Insert into noticia (nombre,descripcion) values ('El jugador bueno','EL jugador mas bueno del mundo');";
-//   //   db.query(sqlInsert, (error, result) => {
-//   //     res.send("Hello!");
-//   //   });
-// });
 
 //se levanta  el puerto del servidor
 app.listen(3001, () => {
