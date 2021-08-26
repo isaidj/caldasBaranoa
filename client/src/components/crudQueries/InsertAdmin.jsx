@@ -6,7 +6,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../auth/useAuth";
 
-export const InsertAdmin = () => {
+export const InsertAdmin = ({ actualizar }) => {
   const { register, handleSubmit } = useForm();
   const auth = useAuth();
   // console.log(auth.getUser());
@@ -24,6 +24,7 @@ export const InsertAdmin = () => {
     }).then((data) => {
       if (data.data === "ok") {
         console.log(data);
+        actualizar();
       } else {
         console.log("hay un error");
       }

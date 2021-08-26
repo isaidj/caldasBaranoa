@@ -6,6 +6,7 @@ import useAuth from "../auth/useAuth";
 import { Crud } from "../components/crudQueries/Crud";
 
 const UserDashboard = () => {
+  window.document.title = "Dashboard";
   const auth = useAuth();
   const user = auth.getUser();
   //to capital leter all words

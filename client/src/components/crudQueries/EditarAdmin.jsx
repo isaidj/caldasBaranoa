@@ -1,16 +1,14 @@
 import Edit from "@material-ui/icons/Edit";
 import Delete from "@material-ui/icons/Delete";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "react-modal";
-import { Button as ButtonB } from "react-bootstrap";
+
 import { Button as ButtonM } from "@material-ui/core";
-import EditModal from "./EditModal";
-import { CgChevronLeftO, CgClose, CgUser } from "react-icons/cg";
-import Login from "../Login";
-import Register from "../Register";
+
+import { CgClose } from "react-icons/cg";
+
 import { useForm } from "react-hook-form";
 import Axios from "axios";
-import useAuth from "../../auth/useAuth";
 
 const EditarAdmin = ({
   idPubli,
@@ -22,14 +20,11 @@ const EditarAdmin = ({
   actualizar,
 }) => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [confirmIsOpen, setConfirmIsOpen] = React.useState(false);
   const modal = useRef(null);
   const { register, handleSubmit } = useForm();
   const divLogin = useRef(null);
-  const [update, setUpdate] = useState(false);
-
-  const userId = useAuth().getUser();
-  const auth = useAuth();
-
+  const modalConfim = useRef(null);
   const insertData = (d) => {
     Axios.post("http://192.168.1.6:3001/api/updatePubli", {
       nombre: d.nombre,
@@ -52,6 +47,20 @@ const EditarAdmin = ({
       }
     });
   };
+  const deleteRow = () => {
+    Axios.delete("http://192.168.1.6:3001/api/deletePubli", {
+      data: {
+        idpublicaciones: idPubli,
+      },
+    }).then((data) => {
+      if (data.data === "ok") {
+        actualizar();
+        closeModalConfim();
+      } else {
+        console.log("hay un error");
+      }
+    });
+  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -67,6 +76,13 @@ const EditarAdmin = ({
   const closeModal = () => {
     setIsOpen(false);
   };
+  const openModalConfim = () => {
+    setConfirmIsOpen(true);
+  };
+  const closeModalConfim = () => {
+    setConfirmIsOpen(false);
+  };
+
   return (
     <div>
       <Modal
@@ -163,6 +179,26 @@ const EditarAdmin = ({
           </div>
         </div>
       </Modal>
+      <Modal
+        ref={modalConfim}
+        ariaHideApp={false}
+        isOpen={confirmIsOpen}
+        className="modal-login"
+      >
+        <div className="modal-confim">
+          <div className="modal-confim__container">
+            <h1>¿Estas seguro de eliminar la publicacion?</h1>
+            <div className="modal-confim__container--buttons">
+              <button className="btn btn-primary" onClick={deleteRow}>
+                Si
+              </button>
+              <button className="btn btn-primary" onClick={closeModalConfim}>
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      </Modal>
       <ButtonM
         onClick={openModal}
         //small button danger
@@ -180,6 +216,7 @@ const EditarAdmin = ({
         color="secondary"
         style={{ marginLeft: "5px", backgroundColor: "#d22519" }}
         size="small"
+        onClick={openModalConfim}
       >
         <Delete />
       </ButtonM>

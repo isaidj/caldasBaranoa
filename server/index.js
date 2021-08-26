@@ -1,6 +1,9 @@
 //express server
 //aqui se configura el servidor express y las dependencias
+
 const express = require("express");
+//import s3.js
+// const s3 = require("./s3");
 //bodyParser es lo que permite a Express leer el cuerpo y luego analizarlo en un objeto Json que podamos entender.
 
 //cors es un middleware que permite aceptar peticiones desde cualquier dominio
@@ -8,30 +11,39 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
 
-//aquí se configura la conexión a la base de datos
+// aquí se configura la conexión a la base de datos
+// const db = mysql.createPool({
+//   host: "localhost",
+//   user: "caldas",
+//   password: "caldas123",
+//   database: "caldasbaranoa",
+// });
 const db = mysql.createPool({
   host: "localhost",
-  user: "caldas",
-  password: "caldas123",
-  database: "caldasbaranoa",
+  user: "id17482655_caldasbaranoauser",
+  password: "hR1isSQg%RLfVD#PmXB^",
+  database: "id17482655_caldasbaranoa",
 });
 //se configura el middleware para que el servidor acepte peticiones de tipo JSON
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//SECCION DE NOTICIAS
-//Insertar datos en publicaciones
+//Insertar datos en publicaciones //SECCION DE NOTICIAS
 app.post("/api/insertPubli", (req, res) => {
   const nom_publi = req.body.nombre;
   const des_publi = req.body.descripcion;
-  // const img_publi = req.body.imagen;
+  const img_publi = req.body.imagen;
   const areas_idareas = req.body.areas;
   const usuarios_idusuarios = req.body.usuarios_id;
   const admin_idadmin = 1;
+
+  //inner join two tables publicaciones and imagenes
+
+  // const sqlInserPublicacion = 'BEGIN; INSERT INTO publicaciones (nom_publi, des_publi,areas_idareas,usuarios_idusuarios,admin_idadmin) VALUES(?,?,?,?,?); INSERT INTO imagenes (idimagenes,url_images, homepage) VALUES(LAST_INSERT_ID(),?);COMMIT'
+
   const sqlInsertPublicaicon =
     "insert into publicaciones(nom_publi,des_publi,areas_idareas,usuarios_idusuario,admin_idadmin)  values(?, ?, ?, ?,?)";
-
   db.query(
     sqlInsertPublicaicon,
     [
@@ -48,16 +60,31 @@ app.post("/api/insertPubli", (req, res) => {
         res.send("error");
       } else {
         console.log(result);
-        res.send("ok");
+        res.send(result);
       }
     }
   );
+});
+app.post("/api/insertImagen", (req, res) => {
+  const url_images = req.body.url_images;
+  const idpublicaciones = req.body.idpublicaciones;
+  const sqlInsertImagen =
+    "insert into imagenes(url_images,	publicaciones_idpublicaciones)  values(?, ?)";
+  db.query(sqlInsertImagen, [url_images, idpublicaciones], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
 });
 //get datos de publicaciones de usuarios
 app.get("/api/getPubliUser", (req, res) => {
   const idusuario = req.query.id;
   const sqlSelectPublicaciones =
-    "select nom_publi as nombre, des_publi as descripcion from publicaciones where usuarios_idusuario = ? ";
+    "select idpublicaciones, nom_publi, des_publi ,areas_idareas,usuarios_idusuario from publicaciones where usuarios_idusuario = ? ";
   db.query(sqlSelectPublicaciones, [idusuario], (err, result) => {
     if (err) {
       console.log(err);
@@ -77,15 +104,47 @@ app.post("/api/updatePubli", (req, res) => {
   const usuarios_idusuario = req.body.usuarios_id;
   const idpublicaciones = req.body.idpublicaciones;
   const admin_idadmin = 1;
-  const sqlInsertPublicaicon =
+  const sqlUpdatePublicacion =
     "update publicaciones set nom_publi = ?, des_publi = ?, areas_idareas = ?, usuarios_idusuario = ?,idpublicaciones=?, admin_idadmin = ? where idpublicaciones = ?";
 
   db.query(
-    sqlInsertPublicaicon,
+    sqlUpdatePublicacion,
     [
       nom_publi,
       des_publi,
       // img_publi,
+      areas_idareas,
+      usuarios_idusuario,
+      idpublicaciones,
+      admin_idadmin,
+      idpublicaciones,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
+    }
+  );
+});
+//update user publicaciones
+app.post("/api/updateUserPubli", (req, res) => {
+  nom_publi = req.body.nombre;
+  des_publi = req.body.descripcion;
+  areas_idareas = req.body.areas;
+  usuarios_idusuario = req.body.usuarios_id;
+  idpublicaciones = req.body.idpublicaciones;
+  admin_idadmin = 1;
+  const sqlUpdateUserPublicacion =
+    "update publicaciones set nom_publi = ?, des_publi = ?, areas_idareas = ?, usuarios_idusuario = ?,idpublicaciones=?, admin_idadmin = ? where idpublicaciones = ?";
+  db.query(
+    sqlUpdateUserPublicacion,
+    [
+      nom_publi,
+      des_publi,
       areas_idareas,
       usuarios_idusuario,
       idpublicaciones,
@@ -119,6 +178,7 @@ app.get("/api/getAllPubli", (req, res) => {
     }
   });
 });
+
 //Editar admin
 
 //insert usuarios
@@ -144,6 +204,22 @@ app.post("/api/insertusuario", (req, res) => {
       }
     }
   );
+});
+//get TODOS los DATOS de publicaciones
+app.get("/api/getAllPublicHome", (req, res) => {
+  //inner join publibaciones de usuarios with imagenes
+  const sqlSelectPublicaciones =
+    "select * from publicaciones INNER join imagenes on publicaciones.idpublicaciones =imagenes.idimagenes";
+
+  db.query(sqlSelectPublicaciones, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
 });
 //login usuarios
 app.post("/api/login", (req, res) => {
@@ -174,12 +250,17 @@ app.post("/api/login", (req, res) => {
   }
 });
 
-app.delete("/api/delete/:id", (req, res) => {
-  const id = req.params.id;
-  const sqlDelete = "delete from noticia where id=?";
-
-  db.query(sqlDelete, id, (err, result) => {
-    if (err) console.log(result);
+app.delete("/api/deletePubli", (req, res) => {
+  const id = req.body.idpublicaciones;
+  const sqlDelete = "delete from publicaciones where idpublicaciones = ?";
+  db.query(sqlDelete, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send("ok");
+    }
   });
 });
 

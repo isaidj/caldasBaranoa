@@ -1,7 +1,5 @@
 //capitalize
 
-import React from "react";
-
 export const Capitalize = ({ palabras }) => {
   const capitalize = (string) =>
     string.replace(

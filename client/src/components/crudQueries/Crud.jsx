@@ -1,27 +1,29 @@
+import { useState } from "react";
 import useAuth from "../../auth/useAuth";
 import { GetAdmin } from "./GetAdmin";
 import { GetUser } from "./GetUser";
-import { Insert } from "./Insert";
+
 import { InsertAdmin } from "./InsertAdmin";
 import { InsertUser } from "./InsertUser";
 
 export const Crud = () => {
   const auth = useAuth();
   const user = auth.getUser();
+  const [update, setUpdate] = useState(false);
   if (user.nombre === "admin") {
     return (
       <div className="inicioCrud">
-        <InsertAdmin />
+        <InsertAdmin actualizar={() => setUpdate(!update)} />
 
-        <GetAdmin />
+        <GetAdmin actualizar={update} />
       </div>
     );
   } else
     return (
       <div className="inicioCrud">
-        <InsertUser />
+        <InsertUser actualizar={() => setUpdate(!update)} />
 
-        <GetUser />
+        <GetUser actualizar={update} />
       </div>
     );
 };

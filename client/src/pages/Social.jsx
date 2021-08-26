@@ -1,9 +1,12 @@
 import React from "react";
+import Botones from "../components/Botones";
 
 const Social = () => {
+  window.document.title = "NC-Social";
+
   return (
     <div>
-      <h1>Social</h1>
+      <Botones />
     </div>
   );
 };

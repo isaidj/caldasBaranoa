@@ -5,54 +5,53 @@ import Axios from "axios";
 
 import Table from "react-bootstrap/Table";
 // // import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 
 // // import DeleteIcon from "@material-ui/icons/Delete";
-import Edit from "@material-ui/icons/Edit";
+
 import useAuth from "../../auth/useAuth";
 import { Capitalize } from "../Capitalize";
-import DataTable from "react-data-table-component";
+
 import EditarAdmin from "./EditarAdmin";
 
-const customStyles = {
-  rows: {
-    style: {
-      minHeight: "72px", // override the row height
-    },
-  },
-  headCells: {
-    style: {
-      paddingLeft: "8px", // override the cell padding for head cells
-      paddingRight: "8px",
-    },
-  },
-  cells: {
-    style: {
-      paddingLeft: "8px", // override the cell padding for data cells
-      paddingRight: "8px",
-    },
-  },
-};
-// const data2 = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
-const columns = [
-  {
-    name: "Titular",
-    selector: "nombre",
-    sortable: true,
-  },
-  {
-    name: "Cuerpo",
-    selector: "descripcion",
-    sortable: true,
-  },
-  {
-    name: "Estudiante",
-    selector: "fullName",
-    sortable: true,
-  },
-];
+// const customStyles = {
+//   rows: {
+//     style: {
+//       minHeight: "72px", // override the row height
+//     },
+//   },
+//   headCells: {
+//     style: {
+//       paddingLeft: "8px", // override the cell padding for head cells
+//       paddingRight: "8px",
+//     },
+//   },
+//   cells: {
+//     style: {
+//       paddingLeft: "8px", // override the cell padding for data cells
+//       paddingRight: "8px",
+//     },
+//   },
+// };
+// // const data2 = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
+// const columns = [
+//   {
+//     name: "Titular",
+//     selector: "nombre",
+//     sortable: true,
+//   },
+//   {
+//     name: "Cuerpo",
+//     selector: "descripcion",
+//     sortable: true,
+//   },
+//   {
+//     name: "Estudiante",
+//     selector: "fullName",
+//     sortable: true,
+//   },
+// ];
 
-export const GetAdmin = () => {
+export const GetAdmin = ({ actualizar }) => {
   // const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -68,7 +67,7 @@ export const GetAdmin = () => {
       setData(response.data);
       console.log(response);
     });
-  }, [userId, update]);
+  }, [userId, update, actualizar]);
 
   return (
     <div className="listNoticias">
