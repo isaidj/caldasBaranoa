@@ -1,0 +1,21 @@
+{
+  "name": "caldasbaranoa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "s-client": "cd client && npm start ",
+    "s-server": "cd server && npm run devStart"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaidj/caldasBaranoa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isaidj/caldasBaranoa/issues"
+  },
+  "homepage": "https://github.com/isaidj/caldasBaranoa#readme"
+}
