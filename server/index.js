@@ -10,14 +10,16 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mysql = require("mysql");
+require("dotenv").config();
 
 // aquí se configura la conexión a la base de datos
 const db = mysql.createPool({
-  host: "localhost",
-  user: "caldas",
-  password: "caldas123",
-  database: "caldasbaranoa",
+  host: "us-cdbr-east-04.cleardb.com",
+  user: "b6e260a1314650",
+  password: "a98d7049",
+  database: "heroku_a7e39d93f2fdaaa",
 });
+// mysql://b6e260a1314650     :   a98d7049@  us-cdbr-east-04.cleardb.com  /   heroku_a7e39d93f2fdaaa?reconnect=true
 // const db = mysql.createPool({
 //   host: "localhost",
 //   user: "id17482655_caldasbaranoauser",
@@ -264,7 +266,15 @@ app.delete("/api/deletePubli", (req, res) => {
   });
 });
 
-//se levanta  el puerto del servidor
-app.listen(3001, () => {
+// se levanta  el puerto del servidor
+app.listen(process.env.PORT || 3001, () => {
   console.log("Server listening on port 3001");
 });
+
+// db.sequelize.sync().then((req) => {
+//   app.listen(process.env.PORT || 3001, () => {
+//     console.log("Server listening on port 3001");
+//   }); 
+// })
+// var port_number = app.listen(process.env.PORT || 3001);
+// app.listen(port_number);
