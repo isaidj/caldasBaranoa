@@ -12,18 +12,18 @@ const app = express();
 const mysql = require("mysql");
 
 // aquí se configura la conexión a la base de datos
-// const db = mysql.createPool({
-//   host: "localhost",
-//   user: "caldas",
-//   password: "caldas123",
-//   database: "caldasbaranoa",
-// });
 const db = mysql.createPool({
   host: "localhost",
-  user: "id17482655_caldasbaranoauser",
-  password: "hR1isSQg%RLfVD#PmXB^",
-  database: "id17482655_caldasbaranoa",
+  user: "caldas",
+  password: "caldas123",
+  database: "caldasbaranoa",
 });
+// const db = mysql.createPool({
+//   host: "localhost",
+//   user: "id17482655_caldasbaranoauser",
+//   password: "hR1isSQg%RLfVD#PmXB^",
+//   database: "id17482655_caldasbaranoa",
+// });
 //se configura el middleware para que el servidor acepte peticiones de tipo JSON
 app.use(cors());
 app.use(express.json());
