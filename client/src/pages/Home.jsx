@@ -10,7 +10,7 @@ const Home = ({ actualizar }) => {
 
   useEffect(async () => {
     const get = await Axios.get(
-      "http://192.168.1.6:3001/api/getAllPublicHome",
+      "https://caldasbaranoa.herokuapp.com/api/getAllPublicHome",
       {
         // params: {
         //   id: userId.idadmin,

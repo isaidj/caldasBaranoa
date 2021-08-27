@@ -59,7 +59,7 @@ export const GetAdmin = ({ actualizar }) => {
   const userId = useAuth().getUser();
   console.log(userId);
   useEffect(() => {
-    Axios.get("http://192.168.1.6:3001/api/getAllPubli", {
+    Axios.get("https://caldasbaranoa.herokuapp.com/api/getAllPubli", {
       params: {
         id: userId.idadmin,
       },

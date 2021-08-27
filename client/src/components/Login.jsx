@@ -17,7 +17,7 @@ const Login = (props) => {
   let history = useHistory();
 
   const onLogin = (d) => {
-    Axios.post("http://192.168.1.6:3001/api/login", {
+    Axios.post("https://caldasbaranoa.herokuapp.com/api/login", {
       usuario: d.usuario,
       password: d.password,
     }).then((data) => {

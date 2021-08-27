@@ -19,7 +19,7 @@ export const GetUser = ({ actualizar }) => {
   const userId = useAuth().getUser();
 
   useEffect(() => {
-    Axios.get("http://192.168.1.6:3001/api/getPubliUser", {
+    Axios.get("https://caldasbaranoa.herokuapp.com/api/getPubliUser", {
       params: {
         id: userId.idusuario,
       },

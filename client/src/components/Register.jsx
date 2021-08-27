@@ -13,7 +13,7 @@ const Register = (props) => {
   };
 
   const onRegistrar = (d) => {
-    Axios.post("http://192.168.1.6:3001/api/insertusuario", {
+    Axios.post("https://caldasbaranoa.herokuapp.com/api/insertusuario", {
       //uppercase the first letter of d.nombre and d.apellido
 
       usuario: d.usuario,

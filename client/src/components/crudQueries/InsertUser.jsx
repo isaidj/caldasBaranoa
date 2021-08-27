@@ -22,7 +22,7 @@ export const InsertUser = ({ actualizar }) => {
     const random = Math.floor(Math.random() * (5000 - 1000 + 1)) + 1000;
     const nameImg = random + "__" + img.name;
 
-    Axios.post("http://192.168.1.6:3001/api/insertPubli", {
+    Axios.post("https://caldasbaranoa.herokuapp.com/api/insertPubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
 
@@ -35,7 +35,7 @@ export const InsertUser = ({ actualizar }) => {
       if (data.data) {
         actualizar();
         // console.log(data.data.insertId);
-        Axios.post("http://192.168.1.6:3001/api/insertImagen", {
+        Axios.post("https://caldasbaranoa.herokuapp.com/api/insertImagen", {
           url_images: nameImg,
           idpublicaciones: data.data.insertId,
         }).then((data) => {

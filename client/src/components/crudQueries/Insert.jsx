@@ -12,7 +12,7 @@ export const Insert = (props) => {
   // console.log(auth.getUser());
   console.log();
   const insertData = (d) => {
-    Axios.post("http://192.168.1.6:3001/api/insertPubli", {
+    Axios.post("https://caldasbaranoa.herokuapp.com/api/insertPubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
       // imagen: d.imagen,

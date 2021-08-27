@@ -27,7 +27,7 @@ const EditarUser = ({
   const modalConfim = useRef(null);
 
   const insertData = (d) => {
-    Axios.post("http://192.168.1.6:3001/api/updateUserPubli", {
+    Axios.post("https://caldasbaranoa.herokuapp.com/api/updateUserPubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
       // imagen: d.imagen,
@@ -49,7 +49,7 @@ const EditarUser = ({
     });
   };
   const deleteRow = () => {
-    Axios.delete("http://192.168.1.6:3001/api/deletePubli", {
+    Axios.delete("https://caldasbaranoa.herokuapp.com/api/deletePubli", {
       data: {
         idpublicaciones: idPubli,
       },
