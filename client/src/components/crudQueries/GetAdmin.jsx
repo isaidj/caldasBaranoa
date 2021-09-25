@@ -1,7 +1,7 @@
 //get
 
 import React, { useState, useEffect } from "react";
-import Axios from "axios";
+
 
 import Table from "react-bootstrap/Table";
 // // import TextField from "@material-ui/core/TextField";
@@ -12,46 +12,11 @@ import useAuth from "../../auth/useAuth";
 import { Capitalize } from "../Capitalize";
 
 import EditarAdmin from "./EditarAdmin";
-
-// const customStyles = {
-//   rows: {
-//     style: {
-//       minHeight: "72px", // override the row height
-//     },
-//   },
-//   headCells: {
-//     style: {
-//       paddingLeft: "8px", // override the cell padding for head cells
-//       paddingRight: "8px",
-//     },
-//   },
-//   cells: {
-//     style: {
-//       paddingLeft: "8px", // override the cell padding for data cells
-//       paddingRight: "8px",
-//     },
-//   },
-// };
-// // const data2 = [{ id: 1, title: "Conan the Barbarian", year: "1982" }];
-// const columns = [
-//   {
-//     name: "Titular",
-//     selector: "nombre",
-//     sortable: true,
-//   },
-//   {
-//     name: "Cuerpo",
-//     selector: "descripcion",
-//     sortable: true,
-//   },
-//   {
-//     name: "Estudiante",
-//     selector: "fullName",
-//     sortable: true,
-//   },
-// ];
+import useGlobalVariables from "../../global/useGlobalVariables";
+import axios from "axios";
 
 export const GetAdmin = ({ actualizar }) => {
+  const urlWorking = useGlobalVariables().urlWorking;
   // const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -59,7 +24,7 @@ export const GetAdmin = ({ actualizar }) => {
   const userId = useAuth().getUser();
   console.log(userId);
   useEffect(() => {
-    Axios.get("https://caldasbaranoa.herokuapp.com/api/getAllPubli", {
+    axios.get(urlWorking + "getAllPubli", {
       params: {
         id: userId.idadmin,
       },
@@ -67,7 +32,7 @@ export const GetAdmin = ({ actualizar }) => {
       setData(response.data);
       console.log(response);
     });
-  }, [userId, update, actualizar]);
+  }, [userId, update, actualizar, urlWorking]);
 
   return (
     <div className="listNoticias">

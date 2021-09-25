@@ -9,6 +9,7 @@ import { CgClose } from "react-icons/cg";
 
 import { useForm } from "react-hook-form";
 import Axios from "axios";
+import useGlobalVariables from "../../global/useGlobalVariables";
 
 const EditarAdmin = ({
   idPubli,
@@ -19,6 +20,7 @@ const EditarAdmin = ({
   fullName,
   actualizar,
 }) => {
+  const urlWorking = useGlobalVariables().urlWorking;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [confirmIsOpen, setConfirmIsOpen] = React.useState(false);
   const modal = useRef(null);
@@ -26,7 +28,7 @@ const EditarAdmin = ({
   const divLogin = useRef(null);
   const modalConfim = useRef(null);
   const insertData = (d) => {
-    Axios.post("https://caldasbaranoa.herokuapp.com/api/updatePubli", {
+    Axios.post(urlWorking + "updatePubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
       // imagen: d.imagen,

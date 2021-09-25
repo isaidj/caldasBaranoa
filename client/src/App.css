@@ -1,63 +1,82 @@
 .App {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-.header {
-  position: relative;
 
-  height: 10vh;
-  width: 100%;
-}
-.logo {
-  position: absolute;
-  left: 15px;
-}
-.btn-login {
-  position: absolute;
+/* .modal-login {
+ 
   display: flex;
   align-items: center;
-  right: 15px;
-  height: 100%;
-}
-.btn-menu {
-  visibility: hidden;
-}
-.btn-openModal {
-  font-size: 2.5rem;
-}
-.btn-login h1 {
-  font-size: 1.1rem;
-  color: white;
-  text-align: center;
-  font-weight: bold;
-  /* center vertical */
-}
-.btn-login:hover {
-  cursor: pointer;
-}
-.modal-login {
-  /*center modal*/
+  justify-content: center;
+ 
 
   position: relative;
-  margin-top: 50px;
-  margin-left: auto;
-  margin-right: auto;
   width: 30%;
-  height: auto;
-  padding: 50px;
-  background-color: rgb(228, 228, 228);
-  border-radius: 5px;
+  height: 50%;
+
+  background-color: #f5f5f5;
+
+  border-radius: 40px;
   animation: modal-login-animation 0.3s;
   outline: none;
 }
+.circle {
+ 
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  content: "";
+  width: 80px;
+  
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+
+  border-bottom: 0;
+  background-color: #d6d6d6;
+  box-shadow: 0px 0px 10px #464646;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.circle-left {
+  top: 20%;
+  left: 0;
+  width: 30px;
+  height: 60px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 0;
+}
+
+@keyframes modal-login-animation {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .modal-login-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -100px;
+  background-color: rgba(0, 0, 0, 0.692);
+
+  z-index: 999;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(92, 92, 92, 0.521);
+  animation: modal-login-overlay-animation 0.4s;
 }
-@keyframes modal-login-animation {
+
+@keyframes modal-login-overlay-animation {
   from {
     opacity: 0;
   }
@@ -72,39 +91,33 @@
 
   top: 2%;
   right: 2%;
-  color: rgb(36, 114, 204);
+  color: #2b2d42;
+  cursor: pointer;
+  background-color: transparent;
 }
-
+.modal-login__close:active {
+  outline: none;
+  border: none;
+}
+.modal-login__container__background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .modal-login__container {
   display: flex;
   flex-direction: column;
-  /* center content */
+  gap: 10px;
+
 
   align-items: center;
 }
-.modal-register__container {
-  display: flex;
-  flex-direction: column;
-  /* center content */
-
-  align-items: center;
-}
-.modal-register__back {
-  position: absolute;
-  top: 2%;
-  left: 2%;
-  color: rgb(36, 114, 204);
-  border: none;
-  transform: scale(1.2);
-}
-.modal-register__back:focus {
-  border: none;
-  outline: none;
-}
-
 .modal-login__container h1 {
-  font-size: 1.1rem;
-  color: rgb(49, 49, 49);
+  font-size: 1.4rem;
+  color: #2b2b2b;
 
   font-weight: bold;
 }
@@ -114,35 +127,42 @@
 
   font-weight: bold;
 }
+.modal-register__container {
+  display: flex;
+  flex-direction: column;
+
+
+  align-items: center;
+}
+.modal-register__back {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  color: #2b2d42;
+  background-color: transparent;
+  border: none;
+  transform: scale(1.2);
+}
+.modal-register__back:focus {
+  border: none;
+  outline: none;
+}
 
 .modal-login__form {
   display: flex;
   flex-direction: column;
 
-  width: 90%;
+  width: 100%;
 }
 .modal-login__crearCuenta {
-  background-color: none;
-  color: rgb(36, 114, 204);
+  background-color: transparent;
+  font-weight: bold;
+  color: #edf2f4;
   border: none;
 }
-
-.menu {
-  display: flex;
-  flex-direction: row;
-  list-style-type: none;
-}
-.menu__item {
-}
-.menu__item__active {
-  color: rgb(204, 36, 36);
-}
-.dropdown__profile {
-  background-color: brown;
-  color: brown;
-}
-.App-body {
-}
+.modal-login__crearCuenta:hover {
+  text-decoration: underline;
+} */
 
 .inicioCrud {
   display: grid;
@@ -244,7 +264,7 @@
     height: auto;
     padding: 50px;
     background-color: rgb(255, 255, 255);
-    border-radius: 5px;
+    border-radius: 10px;
     animation: modal-login-animation 0.3s;
     border: none;
     outline: none;
@@ -258,7 +278,7 @@
   }
   .modal-login__container h1 {
     font-size: 1.5rem;
-    color: rgb(49, 49, 49);
+    color: #edf2f4;
 
     font-weight: bold;
   }

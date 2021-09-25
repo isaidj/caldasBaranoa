@@ -1,18 +1,26 @@
-// import logo from "./logo.svg";
-
+//
 import "./App.css";
 
 import RouterComponent from "./components/RouterComponent";
 import AuthProvider from "./auth/AuthProvider";
+import GlobalVariables from "./global/GlobalVariables";
+import styled from "styled-components";
+import { useEffect } from "react";
 
 function App() {
   return (
-    <div className="App">
+    <AppStyled>
       <AuthProvider>
-        <RouterComponent />
+        <GlobalVariables>
+          <RouterComponent />
+        </GlobalVariables>
       </AuthProvider>
-    </div>
+    </AppStyled>
   );
 }
 
 export default App;
+
+const AppStyled = styled.div`
+  font-family: "Poppins", sans-serif;
+`;

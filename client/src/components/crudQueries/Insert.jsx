@@ -5,14 +5,16 @@ import React from "react";
 // import TextField from "@material-ui/core/TextField";
 import { useForm } from "react-hook-form";
 import useAuth from "../../auth/useAuth";
+import useGlobalVariables from "../../globalVariables/useGlobalVariables";
 
 export const Insert = (props) => {
+  const urlWorking = useGlobalVariables().urlWorking;
   const { register, handleSubmit } = useForm();
   const auth = useAuth();
   // console.log(auth.getUser());
   console.log();
   const insertData = (d) => {
-    Axios.post("https://caldasbaranoa.herokuapp.com/api/insertPubli", {
+    Axios.post(urlWorking + "insertPubli", {
       nombre: d.nombre,
       descripcion: d.descripcion,
       // imagen: d.imagen,

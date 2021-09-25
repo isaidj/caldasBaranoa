@@ -1,8 +1,11 @@
+import axios from "axios";
 import React, { createContext, useEffect } from "react";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+ 
+
   const [user, setUser] = React.useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -16,6 +19,19 @@ const AuthProvider = ({ children }) => {
       console.log("Hay un error con local Storage");
     }
   }, [user]);
+
+  const updateUser = (urlWorking, idusuario) => {
+    axios
+      .get(urlWorking + "getUser", {
+        params: {
+          idusuario: idusuario,
+        },
+      })
+      .then((res) => {
+        // console.log(res.data);
+        contextValue.login(res.data);
+      });
+  };
 
   const contextValue = {
     user,
@@ -31,10 +47,12 @@ const AuthProvider = ({ children }) => {
     isLogged() {
       return !!user;
     },
+    updateUser,
   };
   // console.log(user);
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    //children is the component that is being wrapped by this component (in this case, the App component)
   );
 };
 export default AuthProvider;

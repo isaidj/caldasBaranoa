@@ -1,61 +1,68 @@
 import React from "react";
 
-// import Modal from "react-modal";
-// import { CgClose, CgUser, CgChevronLeftO } from "react-icons/cg";
 import { useForm } from "react-hook-form";
 import Axios from "axios";
 
 import { useHistory } from "react-router-dom";
 import useAuth from "../auth/useAuth";
+import useGlobalVariables from "../global/useGlobalVariables";
+import ButtonLogin from "./tagComponents/ButtonLogin";
+import InputLogin from "./tagComponents/InputLogin";
+import { ErrorLogin } from "./tagComponents/AlertsFunctions";
 
 const Login = (props) => {
-  // let subtitle;
+  const urlWorking = useGlobalVariables().urlWorking;
   const { register, handleSubmit } = useForm();
 
   const auth = useAuth();
 
-  let history = useHistory();
+  // let history = useHistory();
 
-  const onLogin = (d) => {
-    Axios.post("https://caldasbaranoa.herokuapp.com/api/login", {
+  const onLogin = async (d) => {
+    Axios.post(urlWorking + "login", {
       usuario: d.usuario,
       password: d.password,
     }).then((data) => {
-      if (data !== null) {
+      if (data.data !== "error") {
+        // console.log(data.data);
         auth.login(data.data);
-        history.push("/UserDashboard");
+        // history.push("/UserDashboard");
+        //open new window
+        // window.open("/UserDashboard/crear", "_blank");
+
         const closeModal = () => {
           props.closeModal();
         };
-
         closeModal();
+      } else {
+        ErrorLogin("Usuario o contraseña incorrectos", "Intenta de nuevo");
       }
     });
   };
 
   return (
     <form onSubmit={handleSubmit(onLogin)} className="modal-login__form">
-      {/* login */}
+      {/* <Loading isLoading={loading}>
+        <AiOutlineLoading />
+      </Loading> */}
       <div className="form-group">
-        <input
+        <InputLogin
           {...register("usuario", { required: true })}
-          className="form-control"
+          ref={null}
           type="text"
-          placeholder="Usuario"
+          placeholder="USUARIO"
         />
       </div>
       <div className="form-group">
-        <input
+        <InputLogin
           {...register("password", { required: true })}
+          ref={null}
           type="password"
-          className="form-control"
-          placeholder="Contraseña"
+          placeholder="CONTRASEÑA"
         />
       </div>
-      <button type="submit" className="btn btn-primary btn-submit">
-        Ingresar
-      </button>
-      {/* register a link */}
+
+      <ButtonLogin type="submit">ENTRAR</ButtonLogin>
     </form>
   );
 };

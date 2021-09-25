@@ -13,19 +13,23 @@ const mysql = require("mysql");
 require("dotenv").config();
 
 // aquí se configura la conexión a la base de datos
-const db = mysql.createPool({
-  host: "us-cdbr-east-04.cleardb.com",
-  user: "b6e260a1314650",
-  password: "a98d7049",
-  database: "heroku_a7e39d93f2fdaaa",
-});
-// mysql://b6e260a1314650     :   a98d7049@  us-cdbr-east-04.cleardb.com  /   heroku_a7e39d93f2fdaaa?reconnect=true
 // const db = mysql.createPool({
-//   host: "localhost",
-//   user: "id17482655_caldasbaranoauser",
-//   password: "hR1isSQg%RLfVD#PmXB^",
-//   database: "id17482655_caldasbaranoa",
+//   host: "us-cdbr-east-04.cleardb.com",
+//   user: "b30e1f20cf6a83",
+//   password: "620a2e67",
+//   database: "heroku_3536b29e6410a83",
 // });
+
+///////////////username          //password              //host                     //database
+//mysql:    b30e1f20cf6a83      :    620a2e67   @   us-cdbr-east-04.cleardb.com    /heroku_3536b29e6410a83      ?reconnect=true
+
+//BD de prueba para el desarrollo local
+const db = mysql.createPool({
+  host: "localhost",
+  user: "caldas",
+  password: "caldas123",
+  database: "caldasbaranoa",
+});
 //se configura el middleware para que el servidor acepte peticiones de tipo JSON
 app.use(cors());
 app.use(express.json());
@@ -33,27 +37,32 @@ app.use(express.urlencoded({ extended: true }));
 
 //Insertar datos en publicaciones //SECCION DE NOTICIAS
 app.post("/api/insertPubli", (req, res) => {
+  const img_portada = req.body.img_portada;
   const nom_publi = req.body.nombre;
+  const sub_publi = req.body.subtitulo;
   const des_publi = req.body.descripcion;
-  const img_publi = req.body.imagen;
-  const areas_idareas = req.body.areas;
+  const categ_principal = req.body.categoria;
+  const fecha = req.body.fecha;
   const usuarios_idusuarios = req.body.usuarios_id;
+  const areas_idareas = req.body.areas;
+  const secciones_idsecciones = req.body.secciones;
   const admin_idadmin = 1;
 
-  //inner join two tables publicaciones and imagenes
-
-  // const sqlInserPublicacion = 'BEGIN; INSERT INTO publicaciones (nom_publi, des_publi,areas_idareas,usuarios_idusuarios,admin_idadmin) VALUES(?,?,?,?,?); INSERT INTO imagenes (idimagenes,url_images, homepage) VALUES(LAST_INSERT_ID(),?);COMMIT'
-
   const sqlInsertPublicaicon =
-    "insert into publicaciones(nom_publi,des_publi,areas_idareas,usuarios_idusuario,admin_idadmin)  values(?, ?, ?, ?,?)";
+    "insert into publicaciones(img_portada,nom_publi,sub_publi,des_publi,categ_principal,fecha,usuarios_idusuario,areas_idareas,secciones_idsecciones,admin_idadmin)  values(?,?,?, ?,?,?, ?, ?,?,?)";
+
   db.query(
     sqlInsertPublicaicon,
     [
+      img_portada,
       nom_publi,
+      sub_publi,
       des_publi,
-      // img_publi,
-      areas_idareas,
+      categ_principal,
+      fecha,
       usuarios_idusuarios,
+      areas_idareas,
+      secciones_idsecciones,
       admin_idadmin,
     ],
     (err, result) => {
@@ -67,105 +76,176 @@ app.post("/api/insertPubli", (req, res) => {
     }
   );
 });
-app.post("/api/insertImagen", (req, res) => {
-  const url_images = req.body.url_images;
+//Update datos de publicaciones
+app.post("/api/updatePubli", (req, res) => {
   const idpublicaciones = req.body.idpublicaciones;
-  const sqlInsertImagen =
-    "insert into imagenes(url_images,	publicaciones_idpublicaciones)  values(?, ?)";
-  db.query(sqlInsertImagen, [url_images, idpublicaciones], (err, result) => {
+  const img_portada = req.body.img_portada;
+  const nom_publi = req.body.nombre;
+  const sub_publi = req.body.subtitulo;
+  const des_publi = req.body.descripcion;
+  const categ_principal = req.body.categoria;
+  const fecha = req.body.fecha;
+  const usuarios_idusuarios = req.body.usuarios_id;
+  const areas_idareas = req.body.areas;
+  const secciones_idsecciones = req.body.secciones;
+  const admin_idadmin = 1;
+  const sqlUpdatePublicacion =
+    "update publicaciones set img_portada = ?, nom_publi=?,sub_publi=?,des_publi=?,categ_principal=?,fecha=?,usuarios_idusuario=?,areas_idareas=?,secciones_idsecciones=?,admin_idadmin=? where idpublicaciones=?";
+
+  db.query(
+    sqlUpdatePublicacion,
+    [
+      img_portada,
+      nom_publi,
+      sub_publi,
+      des_publi,
+      categ_principal,
+      fecha,
+      usuarios_idusuarios,
+      areas_idareas,
+      secciones_idsecciones,
+      admin_idadmin,
+      idpublicaciones,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
+    }
+  );
+});
+//delete las categorias que tiene la publicacion
+app.delete("/api/deletePubliCateg", (req, res) => {
+  const publicaciones_idpublicaciones = req.body.idpublicaciones;
+  const sqlDeletePublicaciones_has_categorias =
+    "delete from publicaciones_has_categorias where publicaciones_idpublicaciones=?";
+  db.query(
+    sqlDeletePublicaciones_has_categorias,
+    [publicaciones_idpublicaciones],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send("ok");
+      }
+    }
+  );
+});
+//get datos de publicaciones por id
+app.get("/api/getPubliId", (req, res) => {
+  const idpublicaciones = req.query.id;
+  const sqlSelectPublicaciones =
+    "select * from publicaciones where idpublicaciones=?";
+  db.query(sqlSelectPublicaciones, [idpublicaciones], (err, result) => {
     if (err) {
       console.log(err);
       res.send("error");
     } else {
+      console.log("ok");
+      res.send(result);
+    }
+  });
+});
+//insert publicaciones_has_categorias
+app.post("/api/insertPubliCateg", (req, res) => {
+  const publicaciones_idpublicaciones = req.body.idpublicaciones;
+  const categorias_id_categorias = req.body.idcategorias;
+  const sqlInsertTopublicaciones_has_categorias =
+    "insert into publicaciones_has_categorias(publicaciones_idpublicaciones,categorias_id_categorias) values(?,?)";
+  db.query(
+    sqlInsertTopublicaciones_has_categorias,
+    [publicaciones_idpublicaciones, categorias_id_categorias],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        res.send(result);
+      }
+    }
+  );
+});
+//update publicaciones_has_categorias
+
+//get publicaciones_has_categorias ---GET TODAS LAS CATEGORIAS DE UNA PUBLICACION
+app.get("/api/getAllCategOfPubli", (req, res) => {
+  const idpublicaciones = req.query.idpublicaciones;
+  const sqlGetAllCategOfPubli =
+    "select * from categorias inner join publicaciones_has_categorias pc on pc.categorias_id_categorias=categorias.id_categorias where pc.publicaciones_idpublicaciones=?;";
+  db.query(sqlGetAllCategOfPubli, [idpublicaciones], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log("ok");
+      res.send(result);
+    }
+  });
+}),
+  //get todas las publicaciones de varias categorias donde los id de las categorias sean iguales a los que se envian por parametro
+  app.get("/api/getAllPubliOfCateg", (req, res) => {
+    const idpublicaciones = req.query.idpublicaciones;
+    const idcategoriasArray = req.query.arrayIdCategorias;
+
+    const sqlGetAllPubliOfCateg =
+      "select distinct idpublicaciones,img_portada, nom_publi, sub_publi   from publicaciones inner join publicaciones_has_categorias pc on pc.publicaciones_idpublicaciones=publicaciones.idpublicaciones where pc.categorias_id_categorias IN (?) ";
+
+    //idcategoriasArray es un array de id de categorias, seperar cada id con una coma
+    console.log(idcategoriasArray);
+    db.query(sqlGetAllPubliOfCateg, [idcategoriasArray], (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+        //delete idpublicaciones from array idcategoriasArray.
+        res.send(result);
+      }
+    });
+  });
+
+//Buscar publicaciones por caracteres en el nombre
+app.get("/api/searchPubli", (req, res) => {
+  const nom_publi = "%" + req.query.nom_publi + "%";
+  console.log(nom_publi);
+  const sqlSelectPublicaciones =
+    "select nom_publi,fecha,idpublicaciones from publicaciones where nom_publi like ?";
+  db.query(sqlSelectPublicaciones, [nom_publi], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      //print query
       console.log(result);
       res.send(result);
     }
   });
 });
 //get datos de publicaciones de usuarios
-app.get("/api/getPubliUser", (req, res) => {
+app.get("/api/getAllPubliUser", (req, res) => {
   const idusuario = req.query.id;
-  const sqlSelectPublicaciones =
-    "select idpublicaciones, nom_publi, des_publi ,areas_idareas,usuarios_idusuario from publicaciones where usuarios_idusuario = ? ";
+
+  const sqlSelectPublicaciones = `select * from publicaciones where usuarios_idusuario = ?`;
+
   db.query(sqlSelectPublicaciones, [idusuario], (err, result) => {
     if (err) {
-      console.log(err);
+      console.log("error");
       res.send("error");
     } else {
-      console.log(result);
+      console.log("ok");
       res.send(result);
     }
   });
 });
-//Update datos de publicaciones
-app.post("/api/updatePubli", (req, res) => {
-  const nom_publi = req.body.nombre;
-  const des_publi = req.body.descripcion;
-  // const img_publi = req.body.imagen;
-  const areas_idareas = req.body.areas;
-  const usuarios_idusuario = req.body.usuarios_id;
-  const idpublicaciones = req.body.idpublicaciones;
-  const admin_idadmin = 1;
-  const sqlUpdatePublicacion =
-    "update publicaciones set nom_publi = ?, des_publi = ?, areas_idareas = ?, usuarios_idusuario = ?,idpublicaciones=?, admin_idadmin = ? where idpublicaciones = ?";
 
-  db.query(
-    sqlUpdatePublicacion,
-    [
-      nom_publi,
-      des_publi,
-      // img_publi,
-      areas_idareas,
-      usuarios_idusuario,
-      idpublicaciones,
-      admin_idadmin,
-      idpublicaciones,
-    ],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.send("error");
-      } else {
-        console.log(result);
-        res.send("ok");
-      }
-    }
-  );
-});
-//update user publicaciones
-app.post("/api/updateUserPubli", (req, res) => {
-  nom_publi = req.body.nombre;
-  des_publi = req.body.descripcion;
-  areas_idareas = req.body.areas;
-  usuarios_idusuario = req.body.usuarios_id;
-  idpublicaciones = req.body.idpublicaciones;
-  admin_idadmin = 1;
-  const sqlUpdateUserPublicacion =
-    "update publicaciones set nom_publi = ?, des_publi = ?, areas_idareas = ?, usuarios_idusuario = ?,idpublicaciones=?, admin_idadmin = ? where idpublicaciones = ?";
-  db.query(
-    sqlUpdateUserPublicacion,
-    [
-      nom_publi,
-      des_publi,
-      areas_idareas,
-      usuarios_idusuario,
-      idpublicaciones,
-      admin_idadmin,
-      idpublicaciones,
-    ],
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.send("error");
-      } else {
-        console.log(result);
-        res.send("ok");
-      }
-    }
-  );
-});
-
-//get TODOS los DATOS de publicaciones
+//get TODOS los DATOS de publicaciones CRUD
 app.get("/api/getAllPubli", (req, res) => {
   // const idusuario = req.query.id;
   const sqlSelectPublicaciones =
@@ -180,8 +260,76 @@ app.get("/api/getAllPubli", (req, res) => {
     }
   });
 });
-
-//Editar admin
+//get areas
+app.get("/api/getAreas", (req, res) => {
+  const sqlSelectAreas = "select * from areas";
+  db.query(sqlSelectAreas, (err, result) => {
+    if (err) {
+      console.log("err");
+      res.send("error");
+    } else {
+      console.log("ok");
+      res.send(result);
+    }
+  });
+});
+//get Secciones
+app.get("/api/getSecciones", (req, res) => {
+  //order by
+  const sqlSelectSecciones = "select * from secciones ";
+  db.query(sqlSelectSecciones, (err, result) => {
+    if (err) {
+      console.log("err");
+      res.send("error");
+    } else {
+      console.log("ok");
+      res.send(result);
+    }
+  });
+});
+//get categorias
+app.get("/api/getCategorias", (req, res) => {
+  const sqlSelectCategorias = "select * from categorias";
+  db.query(sqlSelectCategorias, (err, result) => {
+    if (err) {
+      console.log("err");
+      res.send("error");
+    } else {
+      console.log("ok");
+      res.send(result);
+    }
+  });
+});
+//get all publicaciones de un area
+app.get("/api/getPubliArea", (req, res) => {
+  const idarea = req.query.idareas;
+  const sqlSelectPublicaciones =
+    "select * from publicaciones where areas_idareas = ?";
+  db.query(sqlSelectPublicaciones, [idarea], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
+//get all publicaciones de una seccion
+app.get("/api/getPubliSeccion", (req, res) => {
+  const secciones_idsecciones = req.query.secciones_idsecciones;
+  const sqlSelectPublicaciones =
+    "select * from publicaciones where secciones_idsecciones = ? order by fecha desc";
+  db.query(sqlSelectPublicaciones, [secciones_idsecciones], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send(result);
+    }
+  });
+});
 
 //insert usuarios
 app.post("/api/insertusuario", (req, res) => {
@@ -190,12 +338,13 @@ app.post("/api/insertusuario", (req, res) => {
   const nombres = req.body.nombre;
   const apellidos = req.body.apellido;
   const grado = req.body.grado;
+  const admin_idadmin = 1;
   const sqlInsert =
-    "insert into usuarios(usuario, contrasena, nombres, apellidos, grado) values(?, ?, ?, ?, ?)";
+    "insert into usuarios(usuario, contrasena, nombres, apellidos, grado,admin_idadmin) values(?, ?, ?, ?, ?,?)";
 
   db.query(
     sqlInsert,
-    [usuario, password, nombres, apellidos, grado],
+    [usuario, password, nombres, apellidos, grado, admin_idadmin],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -207,18 +356,60 @@ app.post("/api/insertusuario", (req, res) => {
     }
   );
 });
-//get TODOS los DATOS de publicaciones
-app.get("/api/getAllPublicHome", (req, res) => {
-  //inner join publibaciones de usuarios with imagenes
-  const sqlSelectPublicaciones =
-    "select * from publicaciones INNER join imagenes on publicaciones.idpublicaciones =imagenes.idimagenes";
 
-  db.query(sqlSelectPublicaciones, (err, result) => {
+//update usuarios
+app.post("/api/updateusuario", (req, res) => {
+  const usuario = req.body.usuario;
+  const contrasena = req.body.contrasena;
+  const nombres = req.body.nombre;
+  const apellidos = req.body.apellido;
+  const grado = req.body.grado;
+  const idusuario = req.body.idusuario;
+  const sqlUpdate =
+    "update usuarios set usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, grado = ? where idusuario = ?";
+
+  db.query(
+    sqlUpdate,
+    [usuario, contrasena, nombres, apellidos, grado, idusuario],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        console.log(result);
+
+        res.send(result);
+      }
+    }
+  );
+});
+//get user por id
+app.get("/api/getUser", (req, res) => {
+  const idusuario = req.query.idusuario;
+  const sqlSelectUser =
+    "select idusuario, usuario, contrasena, nombres, apellidos, grado from usuarios where idusuario = ?";
+  db.query(sqlSelectUser, [idusuario], (err, result) => {
     if (err) {
       console.log(err);
       res.send("error");
     } else {
       console.log(result);
+      res.send(result);
+    }
+  });
+});
+
+//get TODOS los DATOS de publicaciones
+app.get("/api/getAllPublicHome", (req, res) => {
+  const sqlSelectPublicaciones2 =
+    "select * from publicaciones order by fecha desc";
+
+  db.query(sqlSelectPublicaciones2, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      // console.log(result);
       res.send(result);
     }
   });
@@ -242,11 +433,11 @@ app.post("/api/login", (req, res) => {
     const sqlSelect =
       "select * from usuarios where usuario = ? and contrasena = ?";
     db.query(sqlSelect, [usuario, password], (err, result) => {
-      if (err) console.log(err);
-
       //verificamos que el usuario exista
       if (result.length > 0) {
         res.send(result);
+      } else {
+        res.send("error");
       }
     });
   }
@@ -274,7 +465,7 @@ app.listen(process.env.PORT || 3001, () => {
 // db.sequelize.sync().then((req) => {
 //   app.listen(process.env.PORT || 3001, () => {
 //     console.log("Server listening on port 3001");
-//   }); 
+//   });
 // })
 // var port_number = app.listen(process.env.PORT || 3001);
 // app.listen(port_number);
