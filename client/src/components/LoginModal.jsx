@@ -49,60 +49,7 @@ const LoginModal = () => {
 
           <p>INICIAR SESIÓN</p>
         </BtnOpenLogin>
-        {/* <ModalStyles>
-          <Modal
-            ariaHideApp={false}
-            isOpen={modalIsOpen}
-            // onAfterOpen={afterOpenModal}
-            onRequestClose={closeModal}
-            // style={customStyles}
-            className="modal-login"
-            overlayClassName="modal-login-overlay"
-            contentLabel="Example Modal"
-          >
-            <div className="modal-login__container__background">
-              <div
-                ref={divLogin}
-                style={{ display: "flex" }}
-                className="modal-login__container"
-              >
-                <button className="modal-login__close" onClick={closeModal}>
-                  <CgClose />
-                </button>
 
-                <span className="circle"> </span>
-                <span className="circle circle-left"> </span>
-                <h1>INICIO DE SESIÓN</h1>
-                <Login closeModal={() => closeModal()} />
-                <button
-                  className="modal-login__crearCuenta"
-                  onClick={() => changeSwitchLogReg(false)}
-                >
-                  Crear una cuenta
-                </button>
-              </div>
-              <span className="circle circle-vacio"> </span>
-            </div>
-            <div>
-              <div
-                ref={divRegister}
-                style={{ display: "none" }}
-                className="modal-login__container"
-              >
-                <button
-                  onClick={() => changeSwitchLogReg(true)}
-                  className="modal-register__back"
-                >
-                  <CgChevronLeftO />
-                </button>
-                <h1>REGISTRO</h1>
-               
-                <Register changeSwitchLogReg={() => changeSwitchLogReg(true)} />
-              </div>
-            </div>
-          </Modal>
-        </ModalStyles> */}
-        {/* <ModalStyles> */}
         <MyModal isOpen={modalIsOpen} switchLogReg={switchLogReg}>
           <div className="mymodal-login__container">
             <div className="modal-login">
@@ -148,8 +95,9 @@ const mobile = `@media (max-width: ${desktopStartWidth}px)`;
 const BtnOpenLogin = styled.div`
   display: flex;
   align-items: center;
-  background-color: #edf2f4;
-  border: 1px solid #2b2b2b;
+  background-color: #ef233c;
+  border: 1px solid transparent;
+  color: #fff;
   border-radius: 15px;
   padding: 5px 10px;
   font-size: 1rem;
@@ -159,8 +107,9 @@ const BtnOpenLogin = styled.div`
   transition: all 0.2s ease-in-out;
   &:hover {
     cursor: pointer;
-    background-color: #8d99ae;
-    color: #2b2b2b;
+    background-color: #ffffff;
+    color: #ef233c;
+    border: 1px solid #ef233c;
     transform: translateX(1px) translateY(1px);
   }
 

@@ -51,47 +51,13 @@ const Menu = (props) => {
                   </NavLink>
                 </li>
               ))}
-              {/* <li className="menu__item">
-                <NavLink
-                  exact
-                  activeClassName="menu__item__active"
-                  to={{
-                    pathname: `${props.secciones[0].nom_seccion}`,
-                    state: {
-                      seccion: props.secciones[0].nom_seccion,
-                    },
-                  }}
-                >
-                  LOCAL
-                </NavLink>
-              </li> */}
-
-              {/* <li className="menu__item">
-                <NavLink
-                  exact
-                  activeClassName="menu__item__active"
-                  to={`/seccion/${props.secciones[1].nom_seccion}`}
-                >
-                  NACIONAL
-                </NavLink>
-              </li>
-
-              <li className="menu__item">
-                <NavLink
-                  exact
-                  activeClassName="menu__item__active"
-                  // to="/secciones/internacional"
-                  to={`/seccion/${props.secciones[2].nom_seccion}`}
-                >
-                  INTERNACIONAL
-                </NavLink>
-              </li> */}
 
               <li className="menu__item menu__item__login">
                 <a
-                  onClick={() => {
-                    window.open("/UserDashboard/crear", "_self");
-                  }}
+                  // onClick={() => {
+                  //   window.open("/UserDashboard/crear", "_self");
+                  // }}
+                  href="/UserDashboard/crear"
                 >
                   DASHBOARD
                 </a>

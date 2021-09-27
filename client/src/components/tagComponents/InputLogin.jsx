@@ -6,11 +6,14 @@ const InputLogin = (props) => {
 export default InputLogin;
 const desktopStartWidth = 992;
 const mobile = `@media (max-width: ${desktopStartWidth}px)`;
-const Input = styled.input`
+const Input = styled.input.attrs((props) => ({
+  ...props,
+}))`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e6e6e6;
+
+  background-color: ${(props) => props.backgroundColor || "#e6e6e6"};
   border: none;
   border-radius: 10px;
   padding: 10px 10px;
@@ -30,16 +33,16 @@ const Input = styled.input`
 
   &:hover {
     background-color: #ffffff;
-    border: 1px solid #ef233c;
+    border: 1px solid ${(props) => props.color || "#e6e6e6"};
 
-    color: #ef233c;
+    color: ${(props) => props.color || "#e6e6e6"};
 
     &::placeholder {
-      color: #ef233c;
+      color: ${(props) => props.color || "#e6e6e6"};
     }
   }
   &:focus {
-    background-color: #ef233c;
+    background-color: ${(props) => props.color || "#ef233c"};
     color: #ffffff;
     transform: translateX(1px) translateY(1px);
     &::placeholder {

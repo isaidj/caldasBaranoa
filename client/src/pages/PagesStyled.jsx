@@ -76,7 +76,9 @@ export const HomeStyled = styled.div`
   }
 
   .column1 {
-    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .column2 {
   }
@@ -89,13 +91,11 @@ export const HomeStyled = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    h2 {
-      font-size: 1rem;
-      font-weight: bold;
-
-      margin-top: 15%;
-    }
+  }
+  .title_column {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 15%;
   }
   ${mobile} {
     max-width: 100%;

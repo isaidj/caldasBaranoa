@@ -2,22 +2,34 @@ import React from "react";
 import { IoIosSettings } from "react-icons/io";
 import styled from "styled-components";
 import ImgProfileExample from "../images/profileExample.jpeg";
+import MenuUser from "./MenuUser";
+import ProfileUserModal from "./ProfileUserModal";
 const ProfileUserDashboard = (props) => {
   const user = props.auth.user.user[0];
   const userName = user.usuario;
   const nombre = user.nombres + " " + user.apellidos;
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleOpenMenu = () => {
+    setIsOpen(!isOpen);
+  };
   return (
-    <DivContainer isOpen={props.isOpen}>
-      <div className="img-container">
-        <img src={ImgProfileExample} alt="profile" />
-      </div>
-      <div className="info-container">
-        <p className="p username">{userName} </p>
-        <p>
-          {nombre} <IoIosSettings className="icon" />
-        </p>
-      </div>
-    </DivContainer>
+    <>
+      <DivContainer isOpen={props.isOpen}>
+        <div className="img-container">
+          <img src={ImgProfileExample} alt="profile" />
+        </div>
+        <div className="info-container">
+          <p className="p username">{userName} </p>
+          <p className="settings" onClick={() => setIsOpen(true)}>
+            {nombre} <IoIosSettings className="icon" />
+          </p>
+        </div>
+      </DivContainer>
+      <ProfileUserModal
+        isOpen={isOpen}
+        handleOpenMenu={() => setIsOpen(false)}
+      />
+    </>
   );
 };
 
@@ -75,6 +87,12 @@ const DivContainer = styled.div`
     .username {
       font-size: 0.9rem;
       font-weight: bold;
+    }
+    .settings {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 `;

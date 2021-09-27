@@ -16,24 +16,6 @@ const urlImg = (name) => {
   return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
 };
 const Esquema = ({ tipo, item }) => {
-  const urlWorking = useGlobalVariables().urlWorking;
-  const history = useHistory();
-
-  const maxWords = (text, max) => {
-    if (text.length > max) {
-      return text.substr(0, max) + "...";
-    } else {
-      return text;
-    }
-  };
-  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-  const openNewNoticia = (idNoticia) => {
-    //open noticia with react router
-    // history.push(`/noticia/${idNoticia}`);
-
-    window.location.href = `/noticia/${idNoticia}`;
-    // window.open(`/noticia/${idNoticia}`);
-  };
   //TIPOS DE ESQUEMAS DE PUBLICACIONES
   switch (tipo) {
     case 1:

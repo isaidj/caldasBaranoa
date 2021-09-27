@@ -93,7 +93,7 @@ const BigPubliStyled = styled.div`
     ${pStyle}
     width: 100%;
     height: auto;
-    text-align: center;
+    text-align: justify;
     font-size: 1rem;
     font-weight: normal;
     padding-left: 10px;
@@ -168,7 +168,7 @@ const RielverticalTDIstyled = styled.div`
 
     .body {
       height: auto;
-      text-align: left;
+      text-align: justify;
       font-size: 1rem;
       font-weight: normal;
     }
@@ -210,7 +210,7 @@ const RielverticalTDIstyled = styled.div`
     .body {
       grid-area: body;
       height: auto;
-      text-align: left;
+      text-align: justify;
       font-size: 1rem;
       font-weight: normal;
     }
@@ -333,7 +333,7 @@ const RielverticalTIRounded2styled = styled.div`
   justify-content: center;
   max-width: 100%;
   height: auto;
-  padding: 20px;
+  padding: 10px;
   transition: all 0.2s ease;
   .categoria {
     //span to the left of box
@@ -350,9 +350,9 @@ const RielverticalTIRounded2styled = styled.div`
   div {
     display: flex;
     flex-direction: column;
-    border: 1px solid #d4d4d439;
+    border: 1px solid #d4d4d4d2;
 
-    border-radius: 3px;
+    border-radius: 15px;
     padding: 10px;
     width: 100%;
     height: auto;

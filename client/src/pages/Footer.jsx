@@ -5,48 +5,48 @@ const Footer = () => {
   //footer withour bootstrap
   return (
     <FooterStyled>
-      <div className="container-fluid text-center text-md-left">
-        <div className="row">
-          <div className="col-md-6 mt-md-0 mt-3">
-            <h5 className="text-uppercase">Caldas Baranoa</h5>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequuntur, suscipit.
-            </p>
-          </div>
-          <hr className="clearfix w-100 d-md-none pb-3" />
-          <div className="col-md-3 mb-md-0 mb-3">
-            <h5 className="text-uppercase">Links</h5>
-            <ul className="list-unstyled">
-              <li>
-                <a href="#!">Link 1</a>
-              </li>
-              <li>
-                <a href="#!">Link 2</a>
-              </li>
-              <li>
-                <a href="#!">Link 3</a>
-              </li>
-              <li>
-                <a href="#!">Link 4</a>
-              </li>
-            </ul>
-          </div>
-          <div className="col-md-3 mb-md-0 mb-3">
-            <h5 className="text-uppercase">Links</h5>
-            <ul className="list-unstyled">
-              <li>
-                <a href="#!">Link 1</a>
-              </li>
-              <li>
-                <a href="#!">Link 2</a>
-              </li>
-              <li>
-                <a href="#!">Link 3</a>
-              </li>
-              <li></li>
-            </ul>
-          </div>
+      <div className="left">
+        <h1>Institucion Educativa Francisco José de Caldas de Barano</h1>
+        <p>
+          PORTAL WEB OFICIAL DE NOTICAS, DE LA INSTITUCIÓN EDUCATIVA FRANCISCO
+          JOSÉ DE CALDAS DE BARANOA ATLÁNTICO (COLOMBIA)
+        </p>
+      </div>
+      <div className="right">
+        <div className="contacto">
+          <h3>Contacto</h3>
+          <p>Tienes alguna duda?</p>
+          <p>
+            <i className="fas fa-phone"></i>
+            (57) 1 477 807
+          </p>
+          <p>
+            <i className="fas fa-envelope"></i>
+
+            <a href="mailto:">correo@gmail.com</a>
+          </p>
+        </div>
+
+        <div className="social">
+          <a href="https://www.facebook.com/">
+            <img
+              src="https://img.icons8.com/color/48/000000/facebook-new.png"
+              alt="facebook"
+            />
+          </a>
+          <a href="https://www.instagram.com/">
+            <img
+              src="https://img.icons8.com/color/48/000000/instagram-new.png"
+              alt="instagram"
+            />
+          </a>
+
+          <a href="https://www.youtube.com/">
+            <img
+              src="https://img.icons8.com/color/48/000000/youtube-play.png"
+              alt="youtube"
+            />
+          </a>
         </div>
       </div>
     </FooterStyled>
@@ -61,14 +61,48 @@ const FooterStyled = styled.footer`
   background-color: #2b2d42;
   height: auto;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  h5 {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0;
+
+  flex-direction: row;
+
+  justify-content: space-between;
+  .left {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    margin-top: 10px;
+
+    h1 {
+      color: #fff;
+      font-size: 1.5rem;
+      /* font-weight: bold; */
+      margin-bottom: 0;
+    }
+    p {
+      color: #fff;
+      font-size: 0.9rem;
+      margin-bottom: 0;
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 10rem;
+    margin-top: 10px;
+    .contacto {
+      color: #fff;
+      font-size: 1rem;
+      margin-right: 1rem;
+      margin-left: 1rem;
+    }
+    .social {
+      a {
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
   }
   p {
     color: #fff;
@@ -88,8 +122,9 @@ const FooterStyled = styled.footer`
     line-height: 0;
     padding: 1.5rem 1rem;
   }
-  ${mobile} {
-  }
   ${tablet} {
+    flex-direction: column;
+  }
+  ${mobile} {
   }
 `;

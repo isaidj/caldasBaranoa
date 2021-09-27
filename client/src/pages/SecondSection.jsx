@@ -28,8 +28,6 @@ const SecondSection = (props) => {
     <>
       <RielBig publi={publi.slice(8, 11)} />
       <RielLittle publi={publi.slice(11, 17)} />
-      {/* h1 con estilo en linea */}
-      <h1 style={{ textAlign: "center" }}> asdasd</h1>
     </>
   );
 };

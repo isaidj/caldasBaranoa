@@ -68,8 +68,8 @@ const SwiperContainer = styled.div`
 
   width: 100%;
   height: 500px;
-  background-color: #ef233c;
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75) inset;
+  background-color: #1f1f2e;
+  /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75) inset; */
 
   .mySwiper {
     width: 90%;

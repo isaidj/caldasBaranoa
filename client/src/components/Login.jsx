@@ -9,6 +9,7 @@ import useGlobalVariables from "../global/useGlobalVariables";
 import ButtonLogin from "./tagComponents/ButtonLogin";
 import InputLogin from "./tagComponents/InputLogin";
 import { ErrorLogin } from "./tagComponents/AlertsFunctions";
+import Buttons, { ButtonRounded } from "./tagComponents/Buttons";
 
 const Login = (props) => {
   const urlWorking = useGlobalVariables().urlWorking;

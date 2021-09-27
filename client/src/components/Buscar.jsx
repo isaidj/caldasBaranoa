@@ -87,7 +87,7 @@ const Div = styled.div`
     ${(props) => (props.buscando ? "display: flex;" : "display: none;")}
     flex-direction: column;
     background-color: #ffffff;
-    border: 1px solid #ef233c;
+    border: 1px solid #ebebeb;
     border-radius: 10px;
     padding: 10px;
     width: 400px;

@@ -146,11 +146,12 @@ export function Table({ columns, data }) {
 const Styles = styled.div`
   padding: 1rem;
 
-  min-width: 100%;
   width: 100%;
+  min-width: 100%;
   table {
     border-spacing: 0;
     background-color: #ffffff;
+
     border-radius: 15px;
     overflow: hidden;
     //shadow

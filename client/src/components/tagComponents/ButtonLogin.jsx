@@ -6,13 +6,15 @@ const ButtonLogin = ({ children, ...props }) => {
 export default ButtonLogin;
 const desktopStartWidth = 992;
 const mobile = `@media (max-width: ${desktopStartWidth}px)`;
-const Button = styled.button`
+const Button = styled.button.attrs((props) => ({
+  ...props,
+}))`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ef233c;
-  color: #edf2f4;
-  border: none;
+  background-color: ${(props) => props.backgroundColor || "#ef233c"};
+  color: ${(props) => props.color || "#edf2f4"};
+  border: 1px solid transparent;
   border-radius: 10px;
   padding: 10px 10px;
   font-weight: bold;
@@ -24,9 +26,9 @@ const Button = styled.button`
   transition: all 0.2s ease-in-out;
   &:hover {
     cursor: pointer;
-    background-color: #ffffff;
-    border: 1px solid #ef233c;
-    color: #ef233c;
+    background-color: ${(props) => props.color || "#edf2f4"};
+    border: 1px solid ${(props) => props.backgroundColor || "#ef233c"};
+    color: ${(props) => props.backgroundColor || "#ef233c"};
   }
 
   ${mobile} {

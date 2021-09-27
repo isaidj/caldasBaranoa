@@ -16,6 +16,7 @@ import DrafJs from "../DrafJs";
 import PrevisualizadorNoticia from "../PrevisualizadorNoticia";
 import { SlateJs } from "../SlateJs";
 import { ActualizandoNoticia } from "../tagComponents/AlertsFunctions";
+import Info from "../tagComponents/Info";
 
 export const UpdatePubliUser = () => {
   let id = useParams().idPubli;
@@ -39,7 +40,6 @@ export const UpdatePubliUser = () => {
   const [categorias, setCategorias] = useState([]);
   const [etiquetas, setEtiquetas] = useState([]);
 
-
   useEffect(() => {
     try {
       localStorage.setItem(
@@ -58,7 +58,6 @@ export const UpdatePubliUser = () => {
     }
   }, [nombrePublicacion, subtitulo]);
   useEffect(() => {
-    
     getPubliId(id);
   }, [id]);
   useEffect(() => {
@@ -106,7 +105,6 @@ export const UpdatePubliUser = () => {
     setNombrePublicacion(data[0].nom_publi);
     setSubtitulo(data[0].sub_publi);
     setCuerpo(data[0].des_publi);
-  
   };
 
   const resetForm = () => {
@@ -188,107 +186,105 @@ export const UpdatePubliUser = () => {
               </div>
 
               <CategoriaContainer switch={switchCategoria}>
-              <h4>Secciones</h4>
-            <div className="switch__container">
-              <div
-                className="item__general"
-                onClick={() => setSwitchCategoria(0)}
-              >
-                General
-              </div>
+                <div className="switch_container">
+                  <div>
+                    <h1>Secciones</h1>
+                    <div className="general">
+                      <select
+                        {...register("secciones", { required: false })}
+                        className=""
+                        type="number"
+                        placeholder="General"
+                      >
+                        <option value="">Ninguna seleccionada</option>
+                        {secciones.map((seccion) => (
+                          <option
+                            key={seccion.idsecciones}
+                            value={seccion.idsecciones}
+                          >
+                            {seccion.nom_seccion}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
 
-              <div
-                className="item__academico"
-                onClick={() => setSwitchCategoria(1)}
-              >
-                Academido
-              </div>
-            </div>
-
-            <div className="general">
-              <select
-                {...register("secciones", { required: true })}
-                className=""
-                type="number"
-                placeholder="General"
-                
-              >
-                <option value="">Seleccione una Seccion</option>
-                {/* Selected */}
-                {secciones.map((seccion) => (
-                  <option key={seccion.idsecciones}   value={seccion.idsecciones}>
-                    {seccion.nom_seccion}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="academico">
-              <select
-                {...register("areas", { required: true })}
-                className=""
-                type="number"
-                placeholder="Area"
-              >
-                <option value="">Seleccione un Area</option>
-                {areas.map((area) => (
-                  <option key={area.idareas} value={area.idareas}>
-                    {area.nom_area}
-                  </option>
-                ))}
-              </select>
-            </div>
+                  <div>
+                    <h1>Academido</h1>
+                    <div className="academico">
+                      <select
+                        {...register("areas", { required: false })}
+                        className=""
+                        type="number"
+                        placeholder="Area"
+                      >
+                        <option value="">Ninguna seleccionada</option>
+                        {areas.map((area) => (
+                          <option key={area.idareas} value={area.idareas}>
+                            {area.nom_area}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <Info information="Aquí debes seleccionar la seccion a la cual pertenece la noticia, no es necesario seleccionar una asignatura. " />
+                </div>
               </CategoriaContainer>
               <EtiquetasContainer>
-            <h4>Etiquetas</h4>
-            <div className="etiquetas__seleccionadas">
-              {etiquetas.length !== 0 ? (
-                etiquetas.map((etiqueta, index) => (
-                  <div
-                    key={index + 1}
-                    className="etiquetas etiqueta"
-                    style={{ color: "#" + etiqueta.color }}
-                    onClick={() => {
-                      setCategorias((prevState) => [...prevState, etiqueta]);
-                      //delete etiqueta item
-                      setEtiquetas((prevState) =>
-                        prevState.filter(
-                          (item) =>
-                            item.id_categorias !== etiqueta.id_categorias
-                        )
-                      );
-                    }}
-                  >
-                    {etiqueta.nom_categoria}
-                    <TiDelete />
-                  </div>
-                ))
-              ) : (
-                <div>No hay etiquetas seleccionadas</div>
-              )}
-            </div>
-            <div className="etiquetas">
-              {categorias.map((categoria, index) => (
-                <div
-                  key={index + 1}
-                  className="etiqueta"
-                  style={{ color: "#" + categoria.color }}
-                  onClick={() => {
-                    // console.log(categoria);
-                    //add categoria to etiquetas array
-                    setEtiquetas((prevState) => [...prevState, categoria]);
-                    //delete categoria item
-                    setCategorias((prevState) =>
-                      prevState.filter(
-                        (item) => item.id_categorias !== categoria.id_categorias
-                      )
-                    );
-                  }}
-                >
-                  {categoria.nom_categoria}
+                <h4>Etiquetas</h4>
+                <div className="etiquetas__seleccionadas">
+                  {etiquetas.length !== 0 ? (
+                    etiquetas.map((etiqueta, index) => (
+                      <div
+                        key={index + 1}
+                        className="etiquetas etiqueta"
+                        style={{ color: "#" + etiqueta.color }}
+                        onClick={() => {
+                          setCategorias((prevState) => [
+                            ...prevState,
+                            etiqueta,
+                          ]);
+                          //delete etiqueta item
+                          setEtiquetas((prevState) =>
+                            prevState.filter(
+                              (item) =>
+                                item.id_categorias !== etiqueta.id_categorias
+                            )
+                          );
+                        }}
+                      >
+                        {etiqueta.nom_categoria}
+                        <TiDelete />
+                      </div>
+                    ))
+                  ) : (
+                    <div>No hay etiquetas seleccionadas</div>
+                  )}
                 </div>
-              ))}
-            </div>
-          </EtiquetasContainer>
+                <div className="etiquetas">
+                  {categorias.map((categoria, index) => (
+                    <div
+                      key={index + 1}
+                      className="etiqueta"
+                      style={{ color: "#" + categoria.color }}
+                      onClick={() => {
+                        // console.log(categoria);
+                        //add categoria to etiquetas array
+                        setEtiquetas((prevState) => [...prevState, categoria]);
+                        //delete categoria item
+                        setCategorias((prevState) =>
+                          prevState.filter(
+                            (item) =>
+                              item.id_categorias !== categoria.id_categorias
+                          )
+                        );
+                      }}
+                    >
+                      {categoria.nom_categoria}
+                    </div>
+                  ))}
+                </div>
+              </EtiquetasContainer>
               <button
                 className="btn__publicar btn__previsualizar"
                 onClick={() => setPrevisualizador(!previsualizador)}
@@ -440,30 +436,19 @@ const FormContainer = styled.div`
 `;
 
 const CategoriaContainer = styled.div`
-  .switch__container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  .switch_container {
     display: flex;
-
-    width: 200px;
-
-    .item__general,
-    .item__academico {
-      border-radius: 10px 10px 0 0;
-      border: 1px solid #edf2f4;
-      font-size: 1rem;
+    flex-direction: row;
+    h1 {
+      font-size: 1.2rem;
       font-weight: bold;
-      padding: 0.5rem;
-      cursor: pointer;
-    }
-    .item__general {
-      ${(props) =>
-        props.switch === 0 ? `background-color: #7597f5; color: #fff;` : ""}
-    }
-    .item__academico {
-      ${(props) =>
-        props.switch === 1 ? `background-color: #7597f5; color: #fff;` : ""}
+      margin-left: 1rem;
     }
   }
-
   .general,
   .academico {
     select {
@@ -474,16 +459,11 @@ const CategoriaContainer = styled.div`
       border: 1px solid #e7ecee;
       /* background-color: #edf2f4; */
       padding: 0.5rem;
+      cursor: pointer;
     }
     select:focus {
       outline: none;
     }
-  }
-  .general {
-    ${(props) => (props.switch === 0 ? `display: flex;` : "display: none;")}
-  }
-  .academico {
-    ${(props) => (props.switch === 1 ? `display: flex` : "display: none;")}
   }
 `;
 const appearColor2 = keyframes`

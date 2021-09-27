@@ -31,24 +31,16 @@ const MenuDashboard = () => {
         <BsFillGrid1X2Fill className="icon" />
         <span className="nav-text">Crear</span>
       </NavLink>
-      <NavLink className="navLink" to="">
-        <FaSearch className="icon" />
-        <span className="nav-text">Buscar</span>
-      </NavLink>
+
       <NavLink className="navLink" exact to="/UserDashboard/publicaciones">
         <RiFileList2Line className="icon" />
         <span className="nav-text">Publicaciones</span>
       </NavLink>
       <span className="hr" />
-      <div
-        className="navLink"
-        onClick={() => {
-          window.location.href = "/";
-        }}
-      >
+      <a className="navLink" href="/">
         <HiHome className="icon" />
         <span className="nav-text">Inicio</span>
-      </div>
+      </a>
 
       <div className="navLink" onClick={() => auth.logout()}>
         <FaSignOutAlt className="icon" />
@@ -67,7 +59,7 @@ export const MenuDashboardContainer = styled.div`
   height: 100vh;
   width: 50px;
   width: ${(props) => (props.isOpen ? "250px" : "50px")};
-  border-radius: 0px 10px 10px 0;
+
   padding-top: 40px;
   padding-bottom: 40px;
   transition: all 0.3s ease-in-out;

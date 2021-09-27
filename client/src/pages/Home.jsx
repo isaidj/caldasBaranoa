@@ -13,6 +13,11 @@ import {
   NuestraSeleccion,
   Tendencias,
 } from "../components/HomeTiposSecciones";
+import { RielBig, RielLittle, RielTipoRow } from "./Rieles/RielsHorizontal";
+import {
+  RielverticalTIRounded,
+  RielverticalTIRounded2,
+} from "./Rieles/RielsVertical";
 
 const Home = ({ actualizar }) => {
   window.document.title = "NC-Inicio";
@@ -47,9 +52,10 @@ const Home = ({ actualizar }) => {
 
           {/* Columna izquierda 1 */}
           <div className="column1">
+            <h2 className="title_column">MAS NOTICIAS</h2>
             {data.slice(6, 11).map((item, index) => (
               <div key={index + 1}>
-                <Esquema tipo={3} item={item} />
+                <RielverticalTIRounded publi={item} />
               </div>
             ))}
           </div>
@@ -67,10 +73,10 @@ const Home = ({ actualizar }) => {
           </div>
           {/* Columna derecha 3 */}
           <div className="column3">
-            <h2>RELEVANTES</h2>
-            {data.slice(11, 15).map((item, index) => (
+            <h2 className="title_column">RELEVANTES</h2>
+            {data.slice(11, 16).map((item, index) => (
               <div key={index + 1}>
-                <Esquema tipo={4} item={item} />
+                <RielverticalTIRounded2 publi={item} />
               </div>
             ))}
           </div>
@@ -79,7 +85,11 @@ const Home = ({ actualizar }) => {
         {/* <SwiperAutoplay data={data} /> */}
         <SwiperFreeMode data={data} />
 
-        <HomeSecondStyled>
+        <RielBig publi={data.slice(16, 19)} />
+        <RielLittle publi={data.slice(19, 23)} />
+        <RielTipoRow publi={data.slice(24, 25)} />
+
+        {/* <HomeSecondStyled>
           <div className="column1">
             <MasVistos data={data} />
           </div>
@@ -89,7 +99,7 @@ const Home = ({ actualizar }) => {
           <div className="column3">
             <Tendencias />
           </div>
-        </HomeSecondStyled>
+        </HomeSecondStyled> */}
       </>
     );
   } else {

@@ -12,6 +12,7 @@ import { InsertandoNoticia } from "../tagComponents/AlertsFunctions";
 import useGlobalVariables from "../../global/useGlobalVariables";
 import PrevisualizadorNoticia from "../PrevisualizadorNoticia";
 import axios from "axios";
+import Info from "../tagComponents/Info";
 
 export const InsertPubliUser = () => {
   const [file, setFile] = React.useState(null);
@@ -163,7 +164,7 @@ export const InsertPubliUser = () => {
             {/* <h4>Secciones</h4> */}
             <div className="switch_container">
               <div>
-                <h1>General</h1>
+                <h1>Secciones</h1>
                 <div className="general">
                   <select
                     {...register("secciones", { required: false })}
@@ -202,6 +203,7 @@ export const InsertPubliUser = () => {
                   </select>
                 </div>
               </div>
+              <Info information="Aquí debes seleccionar la seccion a la cual pertenece la noticia, no es necesario seleccionar una asignatura. " />
             </div>
           </CategoriaContainer>
           <EtiquetasContainer>
@@ -404,8 +406,10 @@ const FormContainer = styled.div`
 `;
 
 const CategoriaContainer = styled.div`
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
+
   .switch_container {
     display: flex;
     flex-direction: row;
