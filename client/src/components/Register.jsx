@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 //import alert from
 
@@ -14,8 +14,11 @@ import ButtonLogin from "./tagComponents/ButtonLogin";
 
 import styled from "styled-components";
 import axios from "axios";
+import AdminDashboardContext from "../context/ContextAdminDashboard";
+import { Success } from "./tagComponents/AlertsFunctions";
 
 const Register = (props) => {
+  const { update, setUpdate } = useContext(AdminDashboardContext);
   const urlWorking = useGlobalVariables().urlWorking;
   // const MySwal = withReactContent(Swal);
   // let subtitle;
@@ -24,10 +27,6 @@ const Register = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const changeToLogin = () => {
-    props.setSwitchLogReg();
-  };
 
   const onRegistrar = (d) => {
     axios
@@ -42,7 +41,7 @@ const Register = (props) => {
       .then((data) => {
         if (data.data !== "error") {
           console.log(data);
-          changeToLogin();
+          setUpdate(!update);
         } else {
           console.log("error");
           Error("Error", "Usuario ya registrado");
@@ -52,10 +51,12 @@ const Register = (props) => {
 
   return (
     <FormStyle>
-      <form onSubmit={handleSubmit(onRegistrar)} className="modal-login__form">
+      <h4>Crear nuevo usuario</h4>
+      <form onSubmit={handleSubmit(onRegistrar)}>
         {/* login */}
         <div className="form-group">
           <InputLogin
+            color="#7597f5"
             type="text"
             placeholder="Usuario"
             {...register("usuario", { required: true, maxLength: 20 })}
@@ -65,6 +66,7 @@ const Register = (props) => {
         </div>
         <div className="form-group">
           <InputLogin
+            color="#7597f5"
             {...register("password", { required: true })}
             ref={null}
             type="password"
@@ -74,6 +76,7 @@ const Register = (props) => {
         </div>
         <div className="form-group">
           <InputLogin
+            color="#7597f5"
             {...register("nombre", {
               required: true,
               pattern: {
@@ -95,6 +98,7 @@ const Register = (props) => {
         </div>
         <div className="form-group">
           <InputLogin
+            color="#7597f5"
             {...register("apellido", {
               required: true,
               pattern: {
@@ -116,6 +120,7 @@ const Register = (props) => {
         <div className="form-group">
           <label>Grado</label>
           <SelectLogin
+            backgroundColor="#7597f5"
             {...register("grado", { required: true })}
             ref={null}
             className="form-control"
@@ -132,14 +137,42 @@ const Register = (props) => {
             <option value="11">11° -onceavo grado</option>
           </SelectLogin>
         </div>
-        <ButtonLogin type="submit">Registrarse</ButtonLogin>
+        <ButtonLogin backgroundColor="#7597f5" type="submit">
+          Registrarse
+        </ButtonLogin>
       </form>
     </FormStyle>
   );
 };
 
 export default Register;
+const desktopStartWidth = 992;
+const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 const FormStyle = styled.div`
+  height: 100%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px #2020204c;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    width: 90%;
+    max-height: auto;
+    padding: 0px 10px 10px 10px;
+  }
+  h4 {
+    background-color: #7597f5;
+    border-radius: 15px 15px 0px 0px;
+    color: white;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+  }
   .errorInput {
     display: inline;
     color: #ef233c;
@@ -148,5 +181,9 @@ const FormStyle = styled.div`
   }
   .errorInput::before {
     content: "⚠ ";
+  }
+  ${mobile} {
+    width: 95%;
+    margin: 0 auto;
   }
 `;

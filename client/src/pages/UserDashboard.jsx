@@ -13,6 +13,13 @@ import GetAllPubliUser from "../components/crudQueries/GetAllPubliUser";
 import LoginModal from "../components/LoginModal";
 import { UpdatePubliUser } from "../components/crudQueries/UpdatePubliUser";
 import Error404 from "./Error404";
+import MenuDashboardAdmin from "../components/MenuDashboardAdmin";
+
+import CreateUser from "../components/crudQueries/CreateUsers";
+import { AdminDashboardProvider } from "../context/ContextAdminDashboard";
+import GetAllPubliAdmin from "../components/crudQueries/GetAllPubliAdmin";
+import Register from "../components/Register";
+import GetAllUsersAdmin from "../components/crudQueries/GetAllUsersAdmin";
 
 // import styled from "styled-components";
 
@@ -29,11 +36,41 @@ const UserDashboard = () => {
   //if user=admin then load the admin page else load the user page
   if (user.nombre === "admin") {
     return (
-      <div>
-        <h1>ADMIN DASHBOARD</h1>
-        <h2>Bienvenido {capitalize(user.nombre)}</h2>
-        <Crud />
-      </div>
+      <Router>
+        <DivContainer>
+          <MenuDashboardAdmin />
+          {/* <div className="loginBtn__container">
+          <LoginModal />
+        </div> */}
+
+          <Switch>
+            {/* <Route exact path="/UserDashboard/crear">
+              <InsertPubliUser />
+            </Route> */}
+            <Route exact path="/UserDashboard/crear">
+              <AdminDashboardProvider>
+                <div className="users__Dashboard">
+                  <Register />
+                </div>
+              </AdminDashboardProvider>
+            </Route>
+            <Route exact path="/UserDashboard/usuarios">
+              <AdminDashboardProvider>
+                <div className="users__Dashboard">
+                  <GetAllUsersAdmin />
+                </div>
+              </AdminDashboardProvider>
+            </Route>
+            <Route exact path="/UserDashboard/publicaciones">
+              <GetAllPubliAdmin />
+            </Route>
+            {/* <Route exact path={`/UserDashboard/actualizar/:idPubli`}>
+              <UpdatePubliUser />
+            </Route> */}
+            <Route path="*" component={Error404} />
+          </Switch>
+        </DivContainer>
+      </Router>
     );
   } else {
     return (
@@ -64,6 +101,9 @@ const UserDashboard = () => {
 
 export default UserDashboard;
 // const DivContainer = styled.div``;
+const desktopStartWidth = 992;
+const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 const DivContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -73,6 +113,17 @@ const DivContainer = styled.div`
     top: 20px;
     right: 20px;
   }
-  .dashboard {
+
+  .users__Dashboard {
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+  }
+
+  ${tablet} {
   }
 `;

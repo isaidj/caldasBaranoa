@@ -62,14 +62,14 @@ const LoginModal = () => {
                 <div className="modal-login__login">
                   <h1>INICIO DE SESIÓN</h1>
                   <Login closeModal={() => closeModal()} />
-                  <button
+                  {/* <button
                     className="crearCuenta"
                     onClick={() => setSwitchLogReg(true)}
                   >
                     Crear una cuenta
-                  </button>
+                  </button> */}
                 </div>
-                <div className="modal-login__login modal-login__register">
+                {/* <div className="modal-login__login modal-login__register">
                   <button
                     className="modal-register__back"
                     onClick={() => setSwitchLogReg(false)}
@@ -78,7 +78,7 @@ const LoginModal = () => {
                   </button>
                   <h1>REGISTRO</h1>
                   <Register setSwitchLogReg={() => setSwitchLogReg(false)} />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@ const BtnOpenLogin = styled.div`
   padding: 5px 10px;
   font-size: 1rem;
   font-weight: bold;
-  width: 100%;
+  width: 10rem;
   outline: none;
   transition: all 0.2s ease-in-out;
   &:hover {
@@ -125,9 +125,11 @@ const BtnOpenLogin = styled.div`
 
   ${mobile} {
     border: none;
-    background-color: transparent;
+    width: auto;
+    border: 1px solid transparent;
+    margin-right: 5px;
     &:hover {
-      background-color: #2b2b2b;
+      background-color: #ffffff;
     }
     .icon__login {
       font-size: 210%;

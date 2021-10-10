@@ -168,7 +168,7 @@ export const ErrorLogin = (title, text) => {
     confirmButtonColor: "#2b2d42 ",
   });
 };
-export const Delete = (urlWorking, title, text, idPubli, actualizar) => {
+export const DeletePubli = (urlWorking, title, text, idPubli, actualizar) => {
   const titleAlert = title || "Eliminar";
   Swal.fire({
     title: titleAlert,
@@ -186,6 +186,38 @@ export const Delete = (urlWorking, title, text, idPubli, actualizar) => {
         .delete(urlWorking + "deletePubli", {
           data: {
             idpublicaciones: idPubli,
+          },
+        })
+        .then((data) => {
+          if (data.data !== "error") {
+            actualizar();
+            Success("Eliminado", "Registro eliminado con exito");
+          } else {
+            console.log("hay un error");
+          }
+        });
+    }
+  });
+};
+
+export const DeleteUser = (urlWorking, title, text, idUser, actualizar) => {
+  const titleAlert = title || "Esta seguro de eliminar este usuario?";
+  Swal.fire({
+    title: titleAlert,
+    text: text || "Se eleiminaran todas sus publicaciones tambien.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#2b2d42 ",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.value) {
+      console.log(idUser);
+      axios
+        .delete(urlWorking + "deleteUser", {
+          data: {
+            idusuario: idUser,
           },
         })
         .then((data) => {

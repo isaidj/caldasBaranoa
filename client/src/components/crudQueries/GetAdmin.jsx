@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 
-
 import Table from "react-bootstrap/Table";
 // // import TextField from "@material-ui/core/TextField";
 
@@ -24,14 +23,16 @@ export const GetAdmin = ({ actualizar }) => {
   const userId = useAuth().getUser();
   console.log(userId);
   useEffect(() => {
-    axios.get(urlWorking + "getAllPubli", {
-      params: {
-        id: userId.idadmin,
-      },
-    }).then((response) => {
-      setData(response.data);
-      console.log(response);
-    });
+    axios
+      .get(urlWorking + "getAllPubli", {
+        params: {
+          id: userId.idadmin,
+        },
+      })
+      .then((response) => {
+        setData(response.data);
+        console.log(response);
+      });
   }, [userId, update, actualizar, urlWorking]);
 
   return (

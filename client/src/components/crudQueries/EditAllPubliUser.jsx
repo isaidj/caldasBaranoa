@@ -12,7 +12,7 @@ import Axios from "axios";
 import useGlobalVariables from "../../global/useGlobalVariables";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
-import { Delete } from "../tagComponents/AlertsFunctions";
+import { DeletePubli } from "../tagComponents/AlertsFunctions";
 
 const EditAllPubliUser = ({
   idPubli,
@@ -90,7 +90,9 @@ const EditAllPubliUser = ({
           color="secondary"
           style={{ marginLeft: "5px", backgroundColor: "#d22519" }}
           className="btn-delete"
-          onClick={() => Delete(urlWorking, null, null, idPubli, actualizar)}
+          onClick={() =>
+            DeletePubli(urlWorking, null, null, idPubli, actualizar)
+          }
         >
           borrar
         </ButtonM>

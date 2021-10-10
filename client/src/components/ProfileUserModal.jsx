@@ -7,17 +7,28 @@ import styled from "styled-components";
 import ButtonLogin from "./tagComponents/ButtonLogin";
 import SelectLogin from "./tagComponents/SelectLogin";
 import InputLogin from "./tagComponents/InputLogin";
+import { HiCamera } from "react-icons/hi";
+import UploadS3 from "../services/UploadS3";
+import user_example from "../images/user_example.png";
+const urlImg = (name) => {
+  return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
+};
 const ProfileUserModal = ({ isOpen, handleOpenMenu }) => {
   const urlWorking = useGlobalVariables().urlWorking;
   const auth = useAuth();
   const user = useAuth().user.user[0];
-
+  const [file, setFile] = useState(null);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
 
   const { register, handleSubmit } = useForm();
 
   const updateUser = (data) => {
-    // console.log(user.idusuario);
+    // console.log(d);
+
+    console.log(file);
+    const img = file;
+    const preNumber = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
+    const nameImg = preNumber + "__" + img.name;
     axios
       .post(urlWorking + "updateusuario", {
         //if data.usuario is "" then the value is user.usuario
@@ -27,35 +38,59 @@ const ProfileUserModal = ({ isOpen, handleOpenMenu }) => {
         contrasena: data.password || user.contrasena,
         grado: data.grado || user.grado,
         idusuario: user.idusuario,
+        url_img_perfil: nameImg || user.url_img_perfil,
       })
       .then((data) => {
         if (data.data !== "error") {
           // auth.login(data.data);
-          auth.updateUser(urlWorking, user.idusuario);
-          handleOpenMenu();
+
+          UploadS3(img, nameImg, handleOpenMenu());
+          setTimeout(() => {
+            auth.updateUser(urlWorking, user.idusuario);
+          }, 1000);
         } else {
           console.log("hay un error");
         }
       });
   };
-
-  //   const handleOpen = () => {
-  //     setIsOpen(!isOpen);
-  //     // console.log(isOpen);
-  //   };
-  //   const OpenProfile = () => {
-  //     setIsOpenProfile(true);
-  //     // console.log(isOpenProfile);
-  //   };
-  //   const closeProfile = () => {
-  //     setIsOpenProfile(false);
-  //   };
-  // console.log(user);
+  const handleFileImg = (e) => {
+    setFile(e.target.files[0]);
+    console.log("EJECUTANDO HANDLEFILEIMG");
+  };
 
   return (
     <MenuProfile isOpen={isOpen}>
       <form onSubmit={handleSubmit(updateUser)}>
         <h1>TUS DATOS</h1>
+
+        <div className="img-preview">
+          <img
+            //doble condicional ternario
+            src={
+              file === null
+                ? user.url_img_perfil !== null
+                  ? urlImg(user.url_img_perfil)
+                  : user_example
+                : URL.createObjectURL(file)
+            }
+            alt="imagen"
+          />
+        </div>
+        <div className="file-input">
+          <input
+            {...register("imagen")}
+            id="file"
+            type="file"
+            name="imagen"
+            accept="image/*"
+            className="file"
+            onChange={handleFileImg}
+          />
+          <label htmlFor="file">
+            <HiCamera />
+            Cambia de foto
+          </label>
+        </div>
         <div className="form-group">
           <InputLogin
             color="#7597f5"
@@ -123,10 +158,12 @@ const ProfileUserModal = ({ isOpen, handleOpenMenu }) => {
             <option value="11">11° -onceavo grado</option>
           </SelectLogin>
         </div>
+
         <div className="btn__group">
           <ButtonLogin
             backgroundColor="#7597f5"
             onClick={() => handleOpenMenu()}
+            type="button"
           >
             Cancelar
           </ButtonLogin>
@@ -145,7 +182,6 @@ const mobile = `@media (max-width: ${desktopStartWidth}px)`;
 const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 const MenuProfile = styled.div`
   display: ${(props) => (props.isOpen ? "flex" : "none")};
-  z-index: 30;
 
   justify-content: center;
   align-items: center;
@@ -176,7 +212,9 @@ const MenuProfile = styled.div`
     background-color: #f3f3f3;
     position: relative;
     width: 30%;
-    height: 50%;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     border-radius: 10px;
     animation: modal-login-animation 0.3s;
@@ -190,13 +228,43 @@ const MenuProfile = styled.div`
     label {
       font-size: 1rem;
       color: #edf2f4;
-
+      cursor: pointer;
       font-weight: bold;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .btn__group {
       display: flex;
       gap: 10px;
+    }
+    .file-input {
+      .file {
+        display: none;
+      }
+      label {
+        display: flex;
+        align-items: center;
+        color: #030303;
+        width: 100%;
+        height: 40px;
+        font-size: 0.8rem;
+        gap: 3px;
+      }
+    }
+
+    .img-preview {
+      width: 100px;
+      height: 100px;
+      img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+        overflow: hidden;
+      }
     }
   }
   @keyframes modal-login-animation {

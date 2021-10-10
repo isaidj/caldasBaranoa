@@ -35,6 +35,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const bcryptjs = require("bcryptjs");
+
 //Insertar datos en publicaciones //SECCION DE NOTICIAS
 app.post("/api/insertPubli", (req, res) => {
   const img_portada = req.body.img_portada;
@@ -246,10 +248,10 @@ app.get("/api/getAllPubliUser", (req, res) => {
 });
 
 //get TODOS los DATOS de publicaciones CRUD
-app.get("/api/getAllPubli", (req, res) => {
+app.get("/api/getAllPubliAdmin", (req, res) => {
   // const idusuario = req.query.id;
   const sqlSelectPublicaciones =
-    'select idpublicaciones, nom_publi as nombre, des_publi as descripcion,areas_idareas,usuarios_idusuario,   CONCAT( usuarios.nombres ," ", usuarios.apellidos )as fullName from publicaciones inner join usuarios on publicaciones.usuarios_idusuario = usuarios.idusuario';
+    'select idpublicaciones, nom_publi ,sub_publi, des_publi,categ_principal,fecha,   CONCAT( usuarios.nombres ," ", usuarios.apellidos )as fullName from publicaciones inner join usuarios on publicaciones.usuarios_idusuario = usuarios.idusuario';
   db.query(sqlSelectPublicaciones, (err, result) => {
     if (err) {
       console.log(err);
@@ -304,7 +306,7 @@ app.get("/api/getCategorias", (req, res) => {
 app.get("/api/getPubliArea", (req, res) => {
   const idarea = req.query.idareas;
   const sqlSelectPublicaciones =
-    "select * from publicaciones where areas_idareas = ?";
+    "select * from publicaciones where areas_idareas = ? order by fecha desc";
   db.query(sqlSelectPublicaciones, [idarea], (err, result) => {
     if (err) {
       console.log(err);
@@ -332,19 +334,20 @@ app.get("/api/getPubliSeccion", (req, res) => {
 });
 
 //insert usuarios
-app.post("/api/insertusuario", (req, res) => {
+app.post("/api/insertusuario", async (req, res) => {
   const usuario = req.body.usuario;
   const password = req.body.password;
   const nombres = req.body.nombre;
   const apellidos = req.body.apellido;
   const grado = req.body.grado;
   const admin_idadmin = 1;
+  let passwordHash = await bcryptjs.hash(password, 8);
   const sqlInsert =
     "insert into usuarios(usuario, contrasena, nombres, apellidos, grado,admin_idadmin) values(?, ?, ?, ?, ?,?)";
 
   db.query(
     sqlInsert,
-    [usuario, password, nombres, apellidos, grado, admin_idadmin],
+    [usuario, passwordHash, nombres, apellidos, grado, admin_idadmin],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -365,12 +368,13 @@ app.post("/api/updateusuario", (req, res) => {
   const apellidos = req.body.apellido;
   const grado = req.body.grado;
   const idusuario = req.body.idusuario;
+  const url_img_perfil = req.body.url_img_perfil;
   const sqlUpdate =
-    "update usuarios set usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, grado = ? where idusuario = ?";
+    "update usuarios set url_img_perfil = ?, usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, grado = ? where idusuario = ?";
 
   db.query(
     sqlUpdate,
-    [usuario, contrasena, nombres, apellidos, grado, idusuario],
+    [url_img_perfil, usuario, contrasena, nombres, apellidos, grado, idusuario],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -387,13 +391,38 @@ app.post("/api/updateusuario", (req, res) => {
 app.get("/api/getUser", (req, res) => {
   const idusuario = req.query.idusuario;
   const sqlSelectUser =
-    "select idusuario, usuario, contrasena, nombres, apellidos, grado from usuarios where idusuario = ?";
+    "select idusuario,url_img_perfil, usuario, contrasena, nombres, apellidos, grado from usuarios where idusuario = ?";
   db.query(sqlSelectUser, [idusuario], (err, result) => {
     if (err) {
       console.log(err);
       res.send("error");
     } else {
       console.log(result);
+      res.send(result);
+    }
+  });
+});
+//getAll usuarios
+app.get("/api/getAllUsers", (req, res) => {
+  const sqlSelectAllUsers = `select
+  usuarios.url_img_perfil,
+    usuarios.idusuario,
+    usuarios.usuario,
+    usuarios.nombres,
+    usuarios.apellidos,
+    usuarios.grado,
+    count(publicaciones.idpublicaciones) as total_publicaciones
+  from
+    usuarios
+    left join publicaciones on usuarios.idusuario = publicaciones.usuarios_idusuario
+  group by
+    usuarios.idusuario;`;
+  db.query(sqlSelectAllUsers, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log("result");
       res.send(result);
     }
   });
@@ -415,29 +444,51 @@ app.get("/api/getAllPublicHome", (req, res) => {
   });
 });
 //login usuarios
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const usuario = req.body.usuario;
   const password = req.body.password;
+  console.log(usuario + " " + password);
 
   if (usuario == "admin") {
-    const sqlSelect = "select * from admin where nombre = ? and contrasena = ?";
-    db.query(sqlSelect, [usuario, password], (err, result) => {
-      if (err) console.log(err);
+    const sqlSelect = "select * from admin where nombre = ?";
+    db.query(sqlSelect, [usuario], (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error");
+      } else {
+        if (result.length > 0) {
+          const compare = bcryptjs.compareSync(password, result[0].contrasena);
+          if (compare) {
+            res.send(result);
+          } else {
+            res.send("error");
+          }
 
-      //verificamos que el usuario exista
-      if (result.length > 0) {
-        res.send(result);
+          console.log("todo ok");
+        } else {
+          res.send("error");
+        }
       }
     });
   } else {
-    const sqlSelect =
-      "select * from usuarios where usuario = ? and contrasena = ?";
-    db.query(sqlSelect, [usuario, password], (err, result) => {
-      //verificamos que el usuario exista
-      if (result.length > 0) {
-        res.send(result);
-      } else {
+    const sqlSelect = "select * from usuarios where usuario = ? ";
+    db.query(sqlSelect, [usuario], (err, result) => {
+      if (err) {
+        console.log(err);
         res.send("error");
+      } else {
+        if (result.length > 0) {
+          const compare = bcryptjs.compareSync(password, result[0].contrasena);
+          console.log(compare);
+          if (compare) {
+            res.send(result);
+          } else {
+            res.send("error");
+          }
+          console.log("todo ok");
+        } else {
+          res.send("error");
+        }
       }
     });
   }
@@ -446,6 +497,20 @@ app.post("/api/login", (req, res) => {
 app.delete("/api/deletePubli", (req, res) => {
   const id = req.body.idpublicaciones;
   const sqlDelete = "delete from publicaciones where idpublicaciones = ?";
+  db.query(sqlDelete, [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error");
+    } else {
+      console.log(result);
+      res.send("ok");
+    }
+  });
+});
+//delete user
+app.delete("/api/deleteUser", (req, res) => {
+  const id = req.body.idusuario;
+  const sqlDelete = "delete from usuarios where idusuario = ?";
   db.query(sqlDelete, [id], (err, result) => {
     if (err) {
       console.log(err);

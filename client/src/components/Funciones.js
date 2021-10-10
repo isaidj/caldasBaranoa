@@ -52,3 +52,20 @@ export const minDigits = (num) => {
   return num.toString().length;
 };
 // console.log(minDigits(1234));
+
+export const urlImg = (name) => {
+  return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
+};
+
+//formatear fecha 2020-09-16T21:42:01.000Z pero si numero es menor a 10 le pone un 0 antes
+export const formatearFecha = (fecha) => {
+  let F = new Date(fecha);
+  let dia = F.getDay() < 10 ? "0" + F.getDay() : F.getDay();
+  let mes = F.getMonth() < 10 ? "0" + F.getMonth() : F.getMonth();
+  let anio = F.getFullYear();
+  let hora = F.getHours() < 10 ? "0" + F.getHours() : F.getHours();
+  let minutos = F.getMinutes() < 10 ? "0" + F.getMinutes() : F.getMinutes();
+  let segundos = F.getSeconds() < 10 ? "0" + F.getSeconds() : F.getSeconds();
+  return `${hora}:${minutos}:${segundos} ${dia}/${mes}/${anio}`;
+};
+console.log(formatearFecha("2020-09-16T21:42:01.000Z"));

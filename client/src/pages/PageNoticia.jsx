@@ -9,14 +9,13 @@ import { PageNoticeStyled } from "./PagesStyled";
 import { Capitalize, HtmlToText } from "../components/Funciones";
 import { NavLink } from "react-router-dom";
 import SecondSection from "./SecondSection";
-const urlImg = (name) => {
-  return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
-};
+import { urlImg } from "../components/Funciones";
 const PageNoticia = (idNoticia) => {
   const [data, setData] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [publiOfCategorias, setPubliOfCategorias] = useState([]);
   const urlWorking = useGlobalVariables().urlWorking;
+  const [userInfo, setUserInfo] = useState([]);
   // console.log(idNoticia);
 
   const id = idNoticia.match.params.id;
@@ -29,6 +28,15 @@ const PageNoticia = (idNoticia) => {
       },
     }).then((response) => {
       setData(response.data);
+      console.log(response.data);
+      Axios.get(urlWorking + "getUser", {
+        params: {
+          idusuario: response.data[0].usuarios_idusuario,
+        },
+      }).then((response) => {
+        setUserInfo(response.data[0]);
+        console.log(response.data[0]);
+      });
     });
 
     Axios.get(urlWorking + "getAllCategOfPubli", {
@@ -39,6 +47,13 @@ const PageNoticia = (idNoticia) => {
       setCategorias(response.data);
       console.log(response.data);
     });
+    // Axios.get(urlWorking + "getUser", {
+    //   params: {
+    //     id: data[0].idusuario,
+    //   },
+    // }).then((response) => {
+    //   setUserInfo(response.data);
+    // });
   }, [id, urlWorking]);
 
   useEffect(() => {
@@ -70,6 +85,17 @@ const PageNoticia = (idNoticia) => {
       <PageNoticeStyled>
         <div>
           <Div1>
+            <div className="autor">
+              <div className="content">
+                <div className="autor-img">
+                  <h5>Por:</h5>
+                  <img src={urlImg(userInfo.url_img_perfil)} alt="imgPerfil" />
+                </div>
+                <div className="autor-info">
+                  <p>{userInfo.nombres + " " + userInfo.apellidos}</p>
+                </div>
+              </div>
+            </div>
             <h4>Temas</h4>
 
             {categorias.map((item) => (
@@ -135,6 +161,36 @@ const Div1 = styled.div`
   margin-bottom: 1rem;
   margin-top: 8rem;
   margin-right: 3rem;
+  .autor {
+    margin-top: 1rem;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+
+      .autor-img {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        img {
+          margin-bottom: 1rem;
+          width: 3rem;
+          height: 3rem;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+      }
+      .autor-info {
+    
+        p {
+          margin-bottom: 1rem;
+          font-size: 0.9rem;  
+          font-weight: bold;
+        }
+    }
+  }
 `;
 const Div2 = styled.div`
   img {

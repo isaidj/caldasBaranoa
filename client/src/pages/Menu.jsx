@@ -55,7 +55,7 @@ const Menu = (props) => {
               <li className="menu__item menu__item__login">
                 <a
                   // onClick={() => {
-                  //   window.open("/UserDashboard/crear", "_self");
+                  //   window.open("/UserDashard/crear", "_self");
                   // }}
                   href="/UserDashboard/crear"
                 >

@@ -296,6 +296,9 @@ const appearColor = keyframes`
     background-color:#edf2f4;
   }
 `;
+const desktopStartWidth = 992;
+const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 
 const DivContainer = styled.div`
   scroll-behavior: smooth;
@@ -304,11 +307,16 @@ const DivContainer = styled.div`
   max-height: 95vh;
   background-color: #f8f8f8;
   border-radius: 10px;
-
+  z-index: 1;
   box-shadow: 0px 0px 20px #2020204c;
   margin: 20px;
+  margin-left: 60px;
   padding: 10px;
   width: 100%;
+  ${mobile} {
+    margin-left: 50px;
+    margin-right: 0;
+  }
 `;
 const FormContainer = styled.div`
   font-family: "Poppins", sans-serif;

@@ -12,7 +12,7 @@ const GlobalVariables = ({ children }) => {
   );
   //this is the url that will be used to connect to the server
   //---------------- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓-------------------
-  const urlWorking = HerokuServerURL;
+  const urlWorking = LocalServerURL;
 
   //contextValue is an object with all the variables that are going to be used in the app
   const contextValue = {

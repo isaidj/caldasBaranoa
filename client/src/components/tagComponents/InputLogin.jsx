@@ -35,10 +35,10 @@ const Input = styled.input.attrs((props) => ({
     background-color: #ffffff;
     border: 1px solid ${(props) => props.color || "#e6e6e6"};
 
-    color: ${(props) => props.color || "#e6e6e6"};
+    color: ${(props) => props.color || "#414141"};
 
     &::placeholder {
-      color: ${(props) => props.color || "#e6e6e6"};
+      color: ${(props) => props.color || "#414141"};
     }
   }
   &:focus {

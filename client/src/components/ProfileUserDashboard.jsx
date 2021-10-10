@@ -1,13 +1,20 @@
 import React from "react";
 import { IoIosSettings } from "react-icons/io";
 import styled from "styled-components";
-import ImgProfileExample from "../images/profileExample.jpeg";
+import user_example from "../images/user_example.png";
 import MenuUser from "./MenuUser";
 import ProfileUserModal from "./ProfileUserModal";
+const urlImg = (name) => {
+  return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
+};
 const ProfileUserDashboard = (props) => {
   const user = props.auth.user.user[0];
   const userName = user.usuario;
   const nombre = user.nombres + " " + user.apellidos;
+  const url_img_perfil = urlImg(user.url_img_perfil);
+
+  console.log(user.url_img_perfil);
+
   const [isOpen, setIsOpen] = React.useState(false);
   const handleOpenMenu = () => {
     setIsOpen(!isOpen);
@@ -16,7 +23,10 @@ const ProfileUserDashboard = (props) => {
     <>
       <DivContainer isOpen={props.isOpen}>
         <div className="img-container">
-          <img src={ImgProfileExample} alt="profile" />
+          <img
+            src={user.url_img_perfil === null ? user_example : url_img_perfil}
+            alt="user"
+          />
         </div>
         <div className="info-container">
           <p className="p username">{userName} </p>

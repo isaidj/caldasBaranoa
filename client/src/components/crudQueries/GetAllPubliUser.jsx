@@ -89,5 +89,13 @@ const GetAllPubliUser = ({ actualizar }) => {
   );
 };
 export default GetAllPubliUser;
-
-const Div = styled.div``;
+const desktopStartWidth = 992;
+const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
+const Div = styled.div`
+  margin-left: 50px;
+  ${mobile} {
+    margin-left: 50px;
+    margin-right: 0;
+  }
+`;

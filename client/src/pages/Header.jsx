@@ -42,7 +42,7 @@ const Header = (props) => {
           <Buscar className="buscar" />
 
           <a href="/" className="titulo">
-            IEFJC
+            I.E FRANCISCO JOSÉ DE CALDAS
           </a>
 
           {/* <img src={LogoCole} alt="logo" className="logo" /> */}
@@ -91,18 +91,20 @@ const HeaderStyled = styled.div`
     display: flex;
 
     align-items: center;
-    width: calc(50%);
+    gap: 10px;
+    /* width: calc(50%); */
   }
 
   .titulo {
     cursor: default;
     user-select: none;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     color: #d90429;
     margin-left: 20px;
     margin-left: auto;
     cursor: pointer;
+    text-align: center;
   }
   .logo {
     width: 100px;

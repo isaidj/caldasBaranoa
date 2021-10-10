@@ -13,10 +13,12 @@ import MenuUser from "./MenuUser";
 import useAuth from "../auth/useAuth";
 import { useHistory } from "react-router";
 import ProfileUserDashboard from "./ProfileUserDashboard";
+
 const MenuDashboard = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   let history = useHistory();
   const auth = useAuth();
+
   return (
     <MenuDashboardContainer isOpen={isOpen}>
       <div className="menu__user">
@@ -26,13 +28,23 @@ const MenuDashboard = () => {
         <IoIosArrowBack className="iconOpen" />
         <span className="spanOpen ">{isOpen ? "Cerrar" : "Abrir"}</span>
       </div>
-      <NavLink className="navLink" exact to="/UserDashboard/crear">
+      <NavLink
+        className="navLink"
+        exact
+        to="/UserDashboard/crear"
+        onClick={() => setIsOpen(false)}
+      >
         {/* <IoIosArrowBack className="iconOpen" /> */}
         <BsFillGrid1X2Fill className="icon" />
         <span className="nav-text">Crear</span>
       </NavLink>
 
-      <NavLink className="navLink" exact to="/UserDashboard/publicaciones">
+      <NavLink
+        className="navLink"
+        exact
+        to="/UserDashboard/publicaciones"
+        onClick={() => setIsOpen(false)}
+      >
         <RiFileList2Line className="icon" />
         <span className="nav-text">Publicaciones</span>
       </NavLink>
@@ -53,7 +65,9 @@ const MenuDashboard = () => {
 export default MenuDashboard;
 
 export const MenuDashboardContainer = styled.div`
+  z-index: 50;
   background-color: #7597f5;
+  position: fixed;
   display: flex;
   flex-direction: column;
   height: 100vh;

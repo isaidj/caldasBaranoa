@@ -11,12 +11,12 @@ const config = {
   accessKeyId: ACCESS_KEY,
   secretAccessKey: SECRET_ACCESS_KEY,
 };
-const UploadS3 = (d, preNumber) => {
+const UploadS3 = (f, name, callback, callback2) => {
   // console.log(d)
   // console.log(preNumber)
-  const file = d;
+  const file = f;
 
-  const newfile = new File([file], preNumber, { type: file.type });
+  const newfile = new File([file], name, { type: file.type });
 
   //  console.log(file);
   //  console.log(newfile);
@@ -30,6 +30,12 @@ const UploadS3 = (d, preNumber) => {
         html: "Se ha subido correctamente",
         confirmButtonText: "Ok",
       });
+      callback();
+
+      //espera 1 segundo
+      setTimeout(() => {
+        callback2();
+      }, 1000);
     })
     .catch((err) => console.error(err));
 };
