@@ -12,6 +12,6 @@ export const PricipalSection = (props) => {
   );
 };
 export default PricipalSection;
-const desktopStartWidth = 992;
-const mobile = `@media (max-width: ${desktopStartWidth}px)`;
-const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
+// const desktopStartWidth = 992;
+// const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+// const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;

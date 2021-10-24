@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useTable, useSortBy, usePagination } from "react-table";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
-export function Table({ columns, data }) {
+export function Table({ columns, data,openALlPubliOfUser }) {
   // const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
   //   useTable(
   //     {
@@ -51,11 +51,11 @@ export function Table({ columns, data }) {
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr {...headerGroup.getHeaderGroupProps()} >
                 {headerGroup.headers.map((column) => (
                   // Add the sorting props to control sorting. For this example
                   // we can add them into the header props
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())} >
                     {column.render("Header")}
                     {/* Add a sort direction indicator */}
                     <span>
@@ -78,7 +78,7 @@ export function Table({ columns, data }) {
             {page.map((row, i) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
+                <tr className="celda" {...row.getRowProps()} >
                   {row.cells.map((cell) => {
                     return (
                       <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -176,6 +176,13 @@ const Styles = styled.div`
       //font poppins-regular
       font-family: "Poppins", sans-serif;
       font-size: 1.2rem;
+    }
+    .celda{
+      background-color: #ffffff;
+      /* &:hover{
+        background-color: #7597f5;
+        cursor: pointer;
+      } */
     }
     td {
       margin: 0;

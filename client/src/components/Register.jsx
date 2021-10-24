@@ -32,6 +32,7 @@ const Register = (props) => {
     axios
       .post(urlWorking + "insertusuario", {
         //uppercase the first letter of d.nombre and d.apellido
+        url_img_perfil:"userExample.png",
         usuario: d.usuario,
         password: d.password,
         nombre: d.nombre.charAt(0).toUpperCase() + d.nombre.slice(1),
@@ -42,6 +43,7 @@ const Register = (props) => {
         if (data.data !== "error") {
           console.log(data);
           setUpdate(!update);
+          Success("Registro","usuario ingresado correctamente");
         } else {
           console.log("error");
           Error("Error", "Usuario ya registrado");

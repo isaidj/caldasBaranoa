@@ -10,7 +10,7 @@ const urlImg = (name) => {
 const desktopStartWidth = 992;
 // const desktop = `@media (min-width: ${desktopStartWidth}px)`;
 const mobile = `@media (max-width: ${desktopStartWidth}px)`;
-const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
+// const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 const imgStyle = css`
   //border radius of the image
   width: 100%;
@@ -164,6 +164,7 @@ const RielverticalTDIstyled = styled.div`
     h2:hover {
       text-decoration: underline;
       cursor: pointer;
+      
     }
 
     .body {

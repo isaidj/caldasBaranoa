@@ -14,6 +14,7 @@ const config = {
 const UploadS3 = (f, name, callback, callback2) => {
   // console.log(d)
   // console.log(preNumber)
+  if(f !== null){
   const file = f;
 
   const newfile = new File([file], name, { type: file.type });
@@ -38,6 +39,18 @@ const UploadS3 = (f, name, callback, callback2) => {
       }, 1000);
     })
     .catch((err) => console.error(err));
+  }else{
+    Swal.fire({
+      icon: "success",
+      title: "Publicado",
+      html: "Se ha subido correctamente",
+      confirmButtonText: "Ok",
+    });
+    
+
+    //espera 1 segundo
+ 
+  }
 };
 
 export default UploadS3;

@@ -3,19 +3,18 @@
 import React from "react";
 
 import useAuth from "../auth/useAuth";
-import { Crud } from "../components/crudQueries/Crud";
+
 
 import styled from "styled-components";
 import MenuDashboard from "../components/MenuDashboard";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { InsertPubliUser } from "../components/crudQueries/InsertPubliUser";
 import GetAllPubliUser from "../components/crudQueries/GetAllPubliUser";
-import LoginModal from "../components/LoginModal";
+
 import { UpdatePubliUser } from "../components/crudQueries/UpdatePubliUser";
 import Error404 from "./Error404";
 import MenuDashboardAdmin from "../components/MenuDashboardAdmin";
 
-import CreateUser from "../components/crudQueries/CreateUsers";
 import { AdminDashboardProvider } from "../context/ContextAdminDashboard";
 import GetAllPubliAdmin from "../components/crudQueries/GetAllPubliAdmin";
 import Register from "../components/Register";
@@ -28,11 +27,7 @@ const UserDashboard = () => {
   const auth = useAuth();
   const user = auth.getUser();
   //to capital leter all words
-  const capitalize = (str) =>
-    str.replace(
-      /\w\S*/g,
-      (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    );
+
   //if user=admin then load the admin page else load the user page
   if (user.nombre === "admin") {
     return (
@@ -102,7 +97,7 @@ const UserDashboard = () => {
 export default UserDashboard;
 // const DivContainer = styled.div``;
 const desktopStartWidth = 992;
-const mobile = `@media (max-width: ${desktopStartWidth}px)`;
+// const mobile = `@media (max-width: ${desktopStartWidth}px)`;
 const tablet = `@media (max-width: ${desktopStartWidth + 200}px)`;
 const DivContainer = styled.div`
   display: flex;

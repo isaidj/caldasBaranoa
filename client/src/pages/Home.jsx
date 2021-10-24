@@ -3,16 +3,12 @@ import React, { useState, useEffect } from "react";
 
 import Esquema from "../components/Esquema";
 
-import { HomefullWithStyled, HomeStyled } from "./PagesStyled";
+import {  HomeStyled } from "./PagesStyled";
 import useGlobalVariables from "../global/useGlobalVariables";
-import SwiperAutoplay from "../components/SwiperAutoplay";
+
 import SwiperFreeMode from "../components/SwiperFreeMode";
-import styled, { keyframes } from "styled-components";
-import {
-  MasVistos,
-  NuestraSeleccion,
-  Tendencias,
-} from "../components/HomeTiposSecciones";
+import styled from "styled-components";
+
 import { RielBig, RielLittle, RielTipoRow } from "./Rieles/RielsHorizontal";
 import {
   RielverticalTIRounded,
@@ -134,8 +130,8 @@ const Home = ({ actualizar }) => {
 
 export default Home;
 
-const HomeSecondStyled = styled(HomeStyled)`
-  margin-top: 20px;
-  max-width: 70%;
-  grid-template-columns: 30% 50% 20%;
-`;
+// const HomeSecondStyled = styled(HomeStyled)`
+//   margin-top: 20px;
+//   max-width: 70%;
+//   grid-template-columns: 30% 50% 20%;
+// `;

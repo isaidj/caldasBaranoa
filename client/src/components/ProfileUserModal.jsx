@@ -24,11 +24,14 @@ const ProfileUserModal = ({ isOpen, handleOpenMenu }) => {
 
   const updateUser = (data) => {
     // console.log(d);
-
+    
     console.log(file);
     const img = file;
     const preNumber = Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    const nameImg = preNumber + "__" + img.name;
+    const nameImg =img !== null ? preNumber + "__" + img.name : user.url_img_perfil;
+    
+    
+      
     axios
       .post(urlWorking + "updateusuario", {
         //if data.usuario is "" then the value is user.usuario
@@ -38,6 +41,7 @@ const ProfileUserModal = ({ isOpen, handleOpenMenu }) => {
         contrasena: data.password || user.contrasena,
         grado: data.grado || user.grado,
         idusuario: user.idusuario,
+        
         url_img_perfil: nameImg || user.url_img_perfil,
       })
       .then((data) => {

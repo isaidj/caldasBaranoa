@@ -26,8 +26,8 @@ require("dotenv").config();
 //BD de prueba para el desarrollo local
 const db = mysql.createPool({
   host: "localhost",
-  user: "caldas",
-  password: "caldas123",
+  user: "root",
+  password: "",
   database: "caldasbaranoa",
 });
 //se configura el middleware para que el servidor acepte peticiones de tipo JSON
@@ -335,6 +335,7 @@ app.get("/api/getPubliSeccion", (req, res) => {
 
 //insert usuarios
 app.post("/api/insertusuario", async (req, res) => {
+  const url_img_perfil = req.body.url_img_perfil;
   const usuario = req.body.usuario;
   const password = req.body.password;
   const nombres = req.body.nombre;
@@ -343,11 +344,11 @@ app.post("/api/insertusuario", async (req, res) => {
   const admin_idadmin = 1;
   let passwordHash = await bcryptjs.hash(password, 8);
   const sqlInsert =
-    "insert into usuarios(usuario, contrasena, nombres, apellidos, grado,admin_idadmin) values(?, ?, ?, ?, ?,?)";
+    "insert into usuarios(url_img_perfil,usuario, contrasena, nombres, apellidos, grado,admin_idadmin) values(?, ?,?, ?, ?, ?,?)";
 
   db.query(
     sqlInsert,
-    [usuario, passwordHash, nombres, apellidos, grado, admin_idadmin],
+    [url_img_perfil,usuario, passwordHash, nombres, apellidos, grado, admin_idadmin],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -361,7 +362,7 @@ app.post("/api/insertusuario", async (req, res) => {
 });
 
 //update usuarios
-app.post("/api/updateusuario", (req, res) => {
+app.post("/api/updateusuario", async (req, res) => {
   const usuario = req.body.usuario;
   const contrasena = req.body.contrasena;
   const nombres = req.body.nombre;
@@ -369,12 +370,14 @@ app.post("/api/updateusuario", (req, res) => {
   const grado = req.body.grado;
   const idusuario = req.body.idusuario;
   const url_img_perfil = req.body.url_img_perfil;
+
+  let passwordHash = await bcryptjs.hash(contrasena, 8);
   const sqlUpdate =
     "update usuarios set url_img_perfil = ?, usuario = ?, contrasena = ?, nombres = ?, apellidos = ?, grado = ? where idusuario = ?";
 
   db.query(
     sqlUpdate,
-    [url_img_perfil, usuario, contrasena, nombres, apellidos, grado, idusuario],
+    [url_img_perfil, usuario, passwordHash, nombres, apellidos, grado, idusuario],
     (err, result) => {
       if (err) {
         console.log(err);
@@ -482,6 +485,7 @@ app.post("/api/login", async (req, res) => {
           console.log(compare);
           if (compare) {
             res.send(result);
+           
           } else {
             res.send("error");
           }

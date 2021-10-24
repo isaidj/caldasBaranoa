@@ -10,6 +10,7 @@ import ButtonLogin from "./tagComponents/ButtonLogin";
 import Axios from "axios";
 import useGlobalVariables from "../global/useGlobalVariables";
 import user_example from "../images/user_example.png";
+import AdminImg from "../images/AdminImg.jpg";
 const urlImg = (name) => {
   return `https://caldasbaranoa.s3.amazonaws.com/${name}`;
 };
@@ -22,7 +23,7 @@ const MenuUser = () => {
 
   const url_img_perfil = urlImg(user.url_img_perfil);
   const { register, handleSubmit } = useForm();
-
+console.log(user);
   const updateUser = (data) => {
     // console.log(user.idusuario);
     Axios.post(urlWorking + "updateusuario", {
@@ -62,7 +63,7 @@ const MenuUser = () => {
       <MenuContainer isOpen={isOpen} isOpenProfile={isOpenProfile}>
         <div onClick={() => handleOpen()} className="user__img__container">
           <img
-            src={user.url_img_perfil === null ? user_example : url_img_perfil}
+            src={user.url_img_perfil === undefined ? AdminImg : url_img_perfil}
             alt="user"
             className="img_icon"
           />

@@ -7,6 +7,8 @@ import user_example from "../../images/user_example.png";
 import AdminDashboardContext from "../../context/ContextAdminDashboard";
 import styled from "styled-components";
 import EditAllUsersAdmin from "./EditAllUsersAdmin";
+import { PubliUsersAdminModal } from "../PubliUsersAdminModal";
+
 const GetAllUsersAdmin = () => {
   const { update } = useContext(AdminDashboardContext);
   const [users, setUsers] = useState([]);
@@ -19,6 +21,15 @@ const GetAllUsersAdmin = () => {
     setLoading(false);
     // console.log(response);
     // setUsers(response.data);
+  };
+  const openALlPubliOfUser = async (id) => {
+    const response= await axios.get(urlWorking + "getAllPubliUser", {
+      params: {
+        id: id,
+      },
+    });
+
+   
   };
 
   useEffect(() => {
@@ -81,7 +92,9 @@ const GetAllUsersAdmin = () => {
                 actualizar={() => setUpdateUsers(!updateUsers)}
               />
             ),
+            
           }))}
+          openALlPubliOfUser={(value) => openALlPubliOfUser(value)}
         />
       </TableStyled>
     );

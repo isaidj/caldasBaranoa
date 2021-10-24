@@ -14,7 +14,7 @@ import useAuth from "../../auth/useAuth";
 import useGlobalVariables from "../../global/useGlobalVariables";
 import DrafJs from "../DrafJs";
 import PrevisualizadorNoticia from "../PrevisualizadorNoticia";
-import { SlateJs } from "../SlateJs";
+
 import { ActualizandoNoticia } from "../tagComponents/AlertsFunctions";
 import Info from "../tagComponents/Info";
 

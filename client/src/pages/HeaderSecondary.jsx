@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Buscar from "../components/Buscar";
 import LoginModal from "../components/LoginModal";
 import MenuLateral from "../components/MenuLateral";

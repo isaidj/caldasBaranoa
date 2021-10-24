@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import useAuth from "../auth/useAuth";
-import { CapitalizeAll } from "../components/Funciones";
+
 //prueba de color
 const Menu = (props) => {
   const isAuth = useAuth().isLogged();
